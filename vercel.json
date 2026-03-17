@@ -1,5 +1,11 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null
+  "functions": {
+    "api/*.js": {
+      "runtime": "edge"
+    }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
 }
