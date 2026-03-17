@@ -1017,6 +1017,15 @@ loadLocal();
 showPage('publications',document.querySelector('.nav-item'));
 /* ── REFRESH LITERATURE ── */
 function openRefreshModal(){
+  const apiKey = localStorage.getItem('lt_apikey') || '';
+  const statusEl = document.getElementById('refreshStatus');
+  if(!apiKey && statusEl){
+    statusEl.innerHTML = `<div style="font-size:13px;color:var(--amber);background:var(--amber-bg);border:1px solid #e8d0a0;border-radius:var(--r-sm);padding:.75rem 1rem;">
+      ⚠ <strong>API key required.</strong> Go to <strong>Settings → API Key</strong> and enter your Anthropic API key to use this feature.
+    </div>`;
+  } else if(statusEl && !statusEl.querySelector('.suggest-grid')){
+    statusEl.innerHTML = 'Click <strong>Search Now</strong> to find recent publications (2024–2025) based on your tracked scholars and journals.';
+  }
   document.getElementById('refreshModal').classList.add('open');
 }
 function closeRefreshModal(){
@@ -1029,64 +1038,64 @@ async function runRefresh(){
   const resultsEl = document.getElementById('suggestResults');
   const metaEl = document.getElementById('refreshMeta');
 
+  // Check API key first
+  const apiKey = localStorage.getItem('lt_apikey') || '';
+  if(!apiKey){
+    statusEl.innerHTML = `<div style="color:var(--red);font-size:13px;padding:.75rem 0;">
+      ⚠ API key required. Please go to <strong>Settings</strong> and enter your Anthropic API key first.
+    </div>`;
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = '⟳ Searching...';
   metaEl.textContent = '';
+  resultsEl.innerHTML = '';
 
   statusEl.innerHTML = `
     <div class="refresh-thinking">
       <div class="thinking-dots"><span></span><span></span><span></span></div>
-      <span style="font-size:13px;color:var(--text2);">AI is searching for new publications based on your scholars & journals…</span>
+      <span style="font-size:13px;color:var(--text2);">AI is searching for new publications… (this may take 20–40 seconds)</span>
     </div>`;
-  resultsEl.innerHTML = '';
 
-  // Get API key
-  const apiKey = localStorage.getItem('lt_apikey') || '';
-
-  // Build payload
   const scholars = db.scholars.map(s=>({id:s.id, name:s.name, inst:s.inst}));
   const journals = (db.journals||[]).map(j=>({name:j.name, if:j.if||'—'}));
   const existingTitles = db.publications.map(p=>p.title);
 
+  const scholarList = scholars.map(s=>`- ${s.name} (${s.inst})`).join('\n');
+  const journalList = journals.map(j=>`- ${j.name} (IF: ${j.if})`).join('\n');
+  const existingList = existingTitles.slice(0,40).join('\n- ');
+  const prompt = buildRefreshPrompt(scholarList, journalList, existingList, scholars);
+
   try {
-    const endpoint = apiKey ? 'https://api.anthropic.com/v1/messages' : '/api/refresh';
-    let response;
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-beta':'interleaved-thinking-2025-05-14'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:16000,
+        thinking:{type:'enabled',budget_tokens:10000},
+        messages:[{role:'user',content:prompt}]
+      })
+    });
 
-    if(apiKey){
-      // Direct call with user's key
-      const scholarList = scholars.map(s=>`- ${s.name} (${s.inst})`).join('\n');
-      const journalList = journals.map(j=>`- ${j.name} (IF: ${j.if})`).join('\n');
-      const existingList = existingTitles.slice(0,40).join('\n- ');
-      const prompt = buildRefreshPrompt(scholarList, journalList, existingList, scholars);
-
-      response = await fetch(endpoint, {
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-beta':'interleaved-thinking-2025-05-14'},
-        body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:16000,
-          thinking:{type:'enabled',budget_tokens:10000},
-          messages:[{role:'user',content:prompt}]
-        })
-      });
-      const data = await response.json();
-      let text='';
-      for(const block of (data.content||[])){if(block.type==='text'){text=block.text;break;}}
-      const match = text.match(/\[[\s\S]*\]/);
-      if(!match) throw new Error('No JSON found in response');
-      const suggestions = JSON.parse(match[0]);
-      renderSuggestions(suggestions, statusEl, resultsEl, metaEl, btn);
-    } else {
-      // Via Vercel edge function
-      response = await fetch('/api/refresh', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({scholars, journals, existingTitles})
-      });
-      const data = await response.json();
-      if(data.error) throw new Error(data.error);
-      renderSuggestions(data.suggestions, statusEl, resultsEl, metaEl, btn);
+    if(!response.ok){
+      const err = await response.json().catch(()=>({error:{message:response.statusText}}));
+      throw new Error(err.error?.message || `HTTP ${response.status}`);
     }
+
+    const data = await response.json();
+    let text='';
+    for(const block of (data.content||[])){if(block.type==='text'){text=block.text;break;}}
+    const match = text.match(/\[[\s\S]*\]/);
+    if(!match) throw new Error('AI did not return valid JSON. Please try again.');
+    const suggestions = JSON.parse(match[0]);
+    renderSuggestions(suggestions, statusEl, resultsEl, metaEl, btn);
 
   } catch(err){
     statusEl.innerHTML = `<div style="color:var(--red);font-size:13px;padding:1rem 0;">⚠ Error: ${err.message}</div>`;
