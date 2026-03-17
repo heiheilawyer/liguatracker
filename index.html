@@ -450,7 +450,7 @@ let db={
 
 let selYear=0, selScholar=0, selTech=0, pickedAv=0;
 const techOpts=['All technologies','SDS / IC Elicitor','Generative AI / LLMs','Eye-tracking / fNIRS','Agentic AI','Computer / CMC','Video-mediated','Telephone'];
-const yearOpts=['All years','2025','2024','2023'];
+const yearOpts=['All years','2026','2025','2024','2023','2022'];
 const insightCache={};
 
 function getScholarOpts(){return['All scholars',...db.scholars.filter(s=>s.type==='core').map(s=>s.name),'Tech-IC scholars','Related scholars'];}
