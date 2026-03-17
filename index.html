@@ -206,17 +206,56 @@ a:hover{text-decoration:underline;}
 .step-text{font-size:13px;color:var(--text);line-height:1.6;}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--text);color:#fff;padding:.7rem 1.1rem;border-radius:var(--r-sm);font-size:13px;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;}
+.toast{position:fixed;bottom:4.5rem;right:1rem;background:var(--text);color:#fff;padding:.65rem 1rem;border-radius:var(--r-sm);font-size:13px;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;}
 .toast.show{opacity:1;}
 
 /* ── API KEY BANNER ── */
 .api-banner{background:var(--amber-bg);border:1px solid #e8d5a0;border-radius:var(--r-sm);padding:.75rem 1rem;margin-bottom:1.25rem;font-size:12px;color:var(--amber);display:flex;align-items:flex-start;gap:8px;line-height:1.6;}
 .api-banner strong{font-weight:500;}
 
+.mobile-nav{display:none;}
+
 @media(max-width:680px){
   .sidebar{display:none;}
-  .main{padding:1rem;}
+  .main{padding:.75rem;}
   .fg,.fg.three{grid-template-columns:1fr;}
+  .header-btns .btn-secondary:nth-child(2),
+  .header-btns .btn-secondary:nth-child(3){display:none;}
+
+  .mobile-nav{
+    display:flex;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:0 .5rem;
+    position:sticky;
+    top:56px;
+    z-index:90;
+    width:100%;
+  }
+  .mobile-nav::-webkit-scrollbar{display:none;}
+  .mn-item{
+    flex-shrink:0;
+    display:flex;align-items:center;gap:5px;
+    padding:.6rem .75rem;
+    font-size:12px;font-weight:400;
+    color:var(--text2);
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    white-space:nowrap;
+    transition:all .15s;
+  }
+  .mn-item.active{
+    color:var(--accent);
+    border-bottom-color:var(--accent);
+    font-weight:500;
+  }
+  .mn-sep{
+    width:1px;background:var(--border);
+    margin:.55rem .1rem;flex-shrink:0;
+  }
 }
 </style>
 </head>
@@ -232,6 +271,17 @@ a:hover{text-decoration:underline;}
   </div>
 </header>
 
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mn-item active" data-page="publications" onclick="showPage('publications',this)">📄 Publications</div>
+  <div class="mn-item" data-page="scholars" onclick="showPage('scholars',this)">👤 Scholars</div>
+  <div class="mn-item" data-page="journals" onclick="showPage('journals',this)">📚 Journals</div>
+  <div class="mn-sep"></div>
+  <div class="mn-item" data-page="add-pub" onclick="showPage('add-pub',this)">＋ Publication</div>
+  <div class="mn-item" data-page="add-scholar" onclick="showPage('add-scholar',this)">＋ Scholar</div>
+  <div class="mn-item" data-page="add-journal" onclick="showPage('add-journal',this)">＋ Journal</div>
+  <div class="mn-sep"></div>
+  <div class="mn-item" data-page="settings" onclick="showPage('settings',this)">⚙ Settings</div>
+</nav>
 <div class="app">
   <nav class="sidebar">
     <div class="nav-label">Browse</div>
@@ -332,7 +382,10 @@ function loadLocal(){try{const s=localStorage.getItem('lt_db2');if(s){const p=JS
 
 function showPage(page,navEl){
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.mn-item').forEach(el=>el.classList.remove('active'));
   if(navEl)navEl.classList.add('active');
+  const mn=document.querySelector(`.mn-item[data-page="${page}"]`);
+  if(mn)mn.classList.add('active');
   const main=document.getElementById('main-content');
   ({publications:renderPublications,scholars:renderScholars,journals:renderJournals,'add-pub':renderAddPub,'add-scholar':renderAddScholar,'add-journal':renderAddJournal,settings:renderSettings})[page]?.(main);
 }
