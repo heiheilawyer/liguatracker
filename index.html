@@ -275,7 +275,7 @@ a:hover{text-decoration:underline;}
 <nav class="mobile-nav" id="mobileNav">
   <div class="mn-item active" data-page="publications" onclick="showPage('publications',this)">📄 Publications</div>
   <div class="mn-item" data-page="scholars" onclick="showPage('scholars',this)">👤 Scholars</div>
-  <div class="mn-item" data-page="journals" onclick="showPage('journals',this)">📚 Journals</div>
+  <div class="mn-item" data-page="journals" onclick="showPage('journals',this)">📚 Journals & Databases</div>
   <div class="mn-sep"></div>
   <div class="mn-item" data-page="add-pub" onclick="showPage('add-pub',this)">＋ Publication</div>
   <div class="mn-item" data-page="add-scholar" onclick="showPage('add-scholar',this)">＋ Scholar</div>
@@ -288,7 +288,7 @@ a:hover{text-decoration:underline;}
     <div class="nav-label">Browse</div>
     <div class="nav-item active" onclick="showPage('publications',this)">📄 Publications</div>
     <div class="nav-item" onclick="showPage('scholars',this)">👤 Scholars</div>
-    <div class="nav-item" onclick="showPage('journals',this)">📚 Journals</div>
+    <div class="nav-item" onclick="showPage('journals',this)">📚 Journals & Databases</div>
     <div class="nav-label">Manage</div>
     <div class="nav-item" onclick="showPage('add-pub',this)">＋ Add Publication</div>
     <div class="nav-item" onclick="showPage('add-scholar',this)">＋ Add Scholar</div>
@@ -388,6 +388,10 @@ let db={
     {id:'j18',name:'Computers & Education: Artificial Intelligence',pub:'Elsevier (Open Access)',url:'https://www.sciencedirect.com/journal/computers-and-education-artificial-intelligence',if:'8.0',sjr:'2.5',cs:'—',q:'Q1',hi:32,note:'New open-access sister journal to C&E, focused entirely on AI in education. Fastest-growing outlet for LLM-based assessment, agentic AI, and sensor technologies.'},
     {id:'j19',name:'TESOL Quarterly',pub:'Wiley / TESOL International',url:'https://onlinelibrary.wiley.com/journal/15457249',if:'3.9',sjr:'1.3',cs:'6.8',q:'Q1',hi:112,note:'Flagship TESOL journal. Timpe-Laughlin 2025 GPT vs. intent-based SDS paper published here. Key for classroom IC, technology-mediated interaction, and GenAI pedagogy.'},
     {id:'j20',name:'Intercultural Pragmatics',pub:'De Gruyter',url:'https://www.degruyter.com/journal/key/ip/html',if:'1.8',sjr:'0.7',cs:'2.9',q:'Q1',hi:34,note:'Specialist journal for pragmatics in intercultural/technology contexts. Timpe-Laughlin & Dombi 2025 SDS-chatbot paper published here.'},
+    {id:'db1',name:'Scopus',pub:'Elsevier',url:'https://www.scopus.com',if:'—',sjr:'—',cs:'—',q:'DB',hi:0,note:'Largest abstract and citation database for peer-reviewed literature. Covers 25,000+ titles. Key for citation tracking, h-index verification, and journal quartile rankings (CiteScore). Essential for systematic reviews in applied linguistics.'},
+    {id:'db2',name:'Web of Science',pub:'Clarivate',url:'https://www.webofscience.com',if:'—',sjr:'—',cs:'—',q:'DB',hi:0,note:'Premier citation database for Impact Factor (JIF) data. Covers SSCI, AHCI, and ESCI indexes. Essential for verifying journal IF, tracking citation counts, and setting up citation alerts for tracked scholars.'},
+    {id:'db3',name:'ProQuest',pub:'ProQuest / Clarivate',url:'https://www.proquest.com',if:'—',sjr:'—',cs:'—',q:'DB',hi:0,note:'Comprehensive database for dissertations, theses, and journal articles. Useful for finding AAAL award-winning dissertations (e.g. Dai IC dissertation), grey literature, and conference proceedings in applied linguistics and language assessment.'},
+    {id:'db4',name:'ERIC',pub:'U.S. Dept. of Education (Open Access)',url:'https://eric.ed.gov',if:'—',sjr:'—',cs:'—',q:'DB',hi:0,note:'Free open-access database focused on education research. Strong coverage of language teaching, CALL, technology-mediated IC, and L2 assessment. Includes ETS Research Reports and government-funded linguistics studies.'},
   ]
 };
 
@@ -695,28 +699,41 @@ function clearApiKey(){
 
 /* ── JOURNALS ── */
 function renderJournals(main){
-  main.innerHTML=`<div class="page-title">Journals & Rankings</div>
-  <div class="page-sub">Key publication outlets with impact metrics (2024)</div>
+  const journals=db.journals.filter(j=>j.q!=='DB');
+  const databases=db.journals.filter(j=>j.q==='DB');
+  main.innerHTML=`<div class="page-title">Journals & Databases</div>
+  <div class="page-sub">Key journals and academic databases for this research area</div>
   <div class="legend"><strong>IF</strong> = Impact Factor (Clarivate) · <strong>SJR</strong> = SCImago Journal Rank · <strong>CiteScore</strong> = Scopus 4-year avg · <strong>Q1</strong> = top 25% in linguistics</div>
-  <div>${db.journals.map(j=>`
+  <div class="s-hdr"><span class="sdot" style="background:#2d5a8e"></span>Journals (\${journals.length})</div>
+  <div>\${journals.map(j=>\`
     <div class="jrnl-card">
-      <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
-      <div class="jrnl-pub">${j.pub}</div>
+      <div class="jrnl-top"><a class="jrnl-name" href="\${j.url}" target="_blank">\${j.name}</a><span class="badge b-q1">\${j.q}</span></div>
+      <div class="jrnl-pub">\${j.pub}</div>
       <div class="metrics">
-        <span class="metric">IF <strong>${j.if}</strong></span>
-        <span class="metric">SJR <strong>${j.sjr}</strong></span>
-        ${j.cs&&j.cs!=='—'?`<span class="metric">CiteScore <strong>${j.cs}</strong></span>`:''}
-        <span class="metric">h-index <strong>${j.hi}</strong></span>
+        <span class="metric">IF <strong>\${j.if}</strong></span>
+        <span class="metric">SJR <strong>\${j.sjr}</strong></span>
+        \${j.cs&&j.cs!=='—'?\`<span class="metric">CiteScore <strong>\${j.cs}</strong></span>\`:''}
+        \${j.hi?\`<span class="metric">h-index <strong>\${j.hi}</strong></span>\`:''}
       </div>
-      <div class="jrnl-note">${j.note}</div>
+      <div class="jrnl-note">\${j.note}</div>
       <div style="display:flex;gap:5px;margin-top:8px;">
-        <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
+        <button class="btn btn-secondary btn-sm" onclick="editJournal('\${j.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteJournal('\${j.id}')">Delete</button>
       </div>
-    </div>`).join('')}</div>`;
+    </div>\`).join('')}</div>
+  <div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#1a6060"></span>Academic Databases (\${databases.length})</div>
+  <div>\${databases.map(j=>\`
+    <div class="jrnl-card" style="border-left:3px solid #b2dbd8;">
+      <div class="jrnl-top"><a class="jrnl-name" href="\${j.url}" target="_blank">\${j.name}</a><span class="badge" style="background:#e6f4f4;color:#1a6060;">Database</span></div>
+      <div class="jrnl-pub">\${j.pub}</div>
+      <div class="jrnl-note" style="margin-top:6px;">\${j.note}</div>
+      <div style="display:flex;gap:5px;margin-top:8px;">
+        <button class="btn btn-secondary btn-sm" onclick="editJournal('\${j.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteJournal('\${j.id}')">Delete</button>
+      </div>
+    </div>\`).join('')}</div>\`;
 }
 
-/* ── ADD FORMS ── */
 function renderAddPub(main){
   const opts=db.scholars.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   main.innerHTML=`<div class="page-title">Add Publication</div><div class="page-sub">Track a new paper or book chapter</div>
@@ -818,16 +835,19 @@ function renderAddJournal(main){
     <div class="fg full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal is relevant..."></textarea></div></div>
     <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveJBtn" onclick="saveJournal()">Save Journal</button></div>
   </div>
-  <div class="s-hdr">All tracked journals</div>
-  <div>${db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;">
-    <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
+  <div class="s-hdr">All tracked journals & databases</div>
+  <div>${db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;${j.q==='DB'?'border-left:3px solid #b2dbd8;':''}">
+    <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a>
+      ${j.q==='DB'?'<span class="badge" style="background:#e6f4f4;color:#1a6060;font-size:10px;padding:2px 8px;border-radius:20px;">Database</span>':`<span class="badge b-q1">${j.q}</span>`}
+    </div>
     <div class="jrnl-pub">${j.pub}</div>
-    <div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span></div>
+    ${j.q!=='DB'?`<div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span></div>`:''}
     <div style="display:flex;gap:5px;margin-top:8px;">
       <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
       <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
     </div></div>`).join('')}</div>`;
 }
+
 
 function saveJournal(eid){
   const name=document.getElementById('j-name').value.trim();
