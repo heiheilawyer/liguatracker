@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinguaTrack — Linguistics Research Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0;--surface:#fff;--surface2:#f0ede6;--border:#e2ddd4;--border2:#ccc7bc;
+  --text:#1a1814;--text2:#6b6560;--text3:#a09a93;
+  --accent:#2d5a8e;--accent2:#1a3d60;
+  --green:#2a6b47;--green-bg:#eaf4ee;
+  --amber:#7a4f1a;--amber-bg:#fdf3e3;
+  --purple:#4a3580;--purple-bg:#f0eeff;
+  --red:#8a2828;--red-bg:#fdeaea;
+  --teal:#1a6060;--teal-bg:#e6f4f4;
+  --r:10px;--r-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;}
+a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.3px;}
+.logo span{color:var(--accent);}
+.header-btns{display:flex;gap:6px;align-items:center;}
+
+.app{display:flex;min-height:calc(100vh - 58px);}
+.sidebar{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:1.25rem 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;}
+.main{flex:1;padding:1.75rem 2rem;max-width:880px;}
+
+.nav-label{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:0 1.1rem;margin-bottom:.4rem;margin-top:.5rem;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:.5rem 1.1rem;font-size:13px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:var(--surface2);color:var(--accent);border-left-color:var(--accent);font-weight:500;}
+.nav-icon{font-size:14px;width:16px;text-align:center;}
+
+.page-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:.2rem;}
+.page-sub{font-size:12px;color:var(--text2);margin-bottom:1.5rem;}
+
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 14px;border-radius:var(--r-sm);cursor:pointer;font-weight:500;transition:all .15s;line-height:1;}
+.btn-primary{background:var(--accent);color:#fff;border:none;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-secondary{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--surface2);color:var(--text);}
+.btn-danger{background:transparent;color:var(--red);border:1px solid #e8c8c8;}
+.btn-danger:hover{background:var(--red-bg);}
+.btn-sm{font-size:11px;padding:4px 9px;}
+.btn-ai{background:linear-gradient(135deg,#2d5a8e,#4a3580);color:#fff;border:none;display:flex;align-items:center;gap:6px;}
+.btn-ai:hover{opacity:.9;}
+
+/* WHEEL */
+.filter-bar{display:flex;gap:14px;align-items:flex-end;margin-bottom:1.5rem;flex-wrap:wrap;}
+.wheel-group{display:flex;flex-direction:column;gap:4px;}
+.wheel-lbl{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
+.wheel-outer{position:relative;height:108px;width:138px;overflow:hidden;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);cursor:ns-resize;user-select:none;}
+.wheel-outer.wide{width:185px;}
+.wheel-inner{position:absolute;width:100%;transition:transform .12s ease;}
+.wheel-item{height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);cursor:pointer;padding:0 6px;text-align:center;}
+.wheel-item.sel{color:var(--text);font-weight:500;background:var(--surface2);}
+.wf-top{position:absolute;top:0;left:0;right:0;height:36px;background:linear-gradient(to bottom,var(--surface) 20%,transparent);pointer-events:none;z-index:2;}
+.wf-bot{position:absolute;bottom:0;left:0;right:0;height:36px;background:linear-gradient(to top,var(--surface) 20%,transparent);pointer-events:none;z-index:2;}
+.wf-line{position:absolute;top:36px;left:0;right:0;height:36px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);pointer-events:none;z-index:1;}
+.filter-count{font-size:12px;color:var(--text3);align-self:flex-end;padding-bottom:10px;}
+
+/* CARDS */
+.pub-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.2rem;margin-bottom:9px;transition:border-color .15s;}
+.pub-card:hover{border-color:var(--border2);}
+.pub-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px;}
+.pub-title{font-size:13.5px;font-weight:500;line-height:1.45;flex:1;color:var(--text);}
+.badges{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
+.badge{font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap;font-weight:500;}
+.b-25{background:#e6f4ee;color:var(--green);}
+.b-24{background:#e6eef8;color:var(--accent);}
+.b-23{background:var(--purple-bg);color:var(--purple);}
+.b-q1{background:var(--teal-bg);color:var(--teal);}
+.b-q2{background:var(--amber-bg);color:var(--amber);}
+.pub-meta{font-size:11.5px;color:var(--text2);margin-bottom:2px;}
+.pub-snip{font-size:11.5px;color:var(--text2);border-left:2px solid var(--border);padding-left:8px;margin-top:6px;line-height:1.55;}
+.pub-foot{display:flex;gap:12px;margin-top:7px;align-items:center;flex-wrap:wrap;}
+.pub-stat{font-size:11px;color:var(--text3);}
+.pub-stat strong{color:var(--text2);}
+.s-hdr{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin:1.2rem 0 .55rem;display:flex;align-items:center;gap:7px;}
+.sdot{width:8px;height:8px;border-radius:50%;}
+
+/* SCHOLAR CARDS */
+.sch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px;}
+.sch-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;}
+.sch-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin-bottom:9px;letter-spacing:.02em;}
+.sch-name{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.sch-inst{font-size:11px;color:var(--text2);margin-bottom:6px;line-height:1.4;}
+.sch-row{display:flex;gap:12px;margin-bottom:8px;}
+.sch-stat{font-size:11px;color:var(--text3);}
+.sch-stat strong{color:var(--text);font-size:13px;}
+.sch-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px;}
+.stag{font-size:10px;padding:2px 6px;border-radius:11px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);}
+.sch-footer{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.pill{font-size:10px;padding:2px 7px;border-radius:11px;}
+.pill-core{background:var(--teal-bg);color:var(--teal);}
+.pill-rel{background:var(--purple-bg);color:var(--purple);}
+
+/* AI INSIGHT PANEL */
+.insight-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:10px;}
+.insight-header{display:flex;align-items:center;gap:10px;padding:.9rem 1.1rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f0f4fb,#f5f0ff);}
+.insight-header h3{font-size:13px;font-weight:500;color:var(--text);}
+.insight-header .sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.insight-body{padding:1rem 1.2rem;}
+.insight-loading{display:flex;align-items:center;gap:10px;padding:1rem 1.2rem;color:var(--text2);font-size:13px;}
+.dot-pulse{display:flex;gap:4px;}
+.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dp 1.2s infinite;}
+.dot-pulse span:nth-child(2){animation-delay:.2s;}
+.dot-pulse span:nth-child(3){animation-delay:.4s;}
+@keyframes dp{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.insight-text{font-size:13px;line-height:1.75;color:var(--text);}
+.insight-text h4{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:1rem 0 .35rem;}
+.insight-text h4:first-child{margin-top:0;}
+.insight-text p{margin-bottom:.5rem;}
+.insight-text ul{padding-left:1.2rem;margin-bottom:.5rem;}
+.insight-text li{margin-bottom:.25rem;}
+.insight-error{font-size:13px;color:var(--red);padding:.5rem;}
+
+/* JOURNAL */
+.jrnl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.2rem;margin-bottom:9px;}
+.jrnl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px;}
+.jrnl-name{font-size:14px;font-weight:500;}
+.jrnl-pub{font-size:11px;color:var(--text3);margin-bottom:7px;}
+.metrics{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px;}
+.metric{font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text2);}
+.metric strong{color:var(--text);}
+.jrnl-note{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* FORMS */
+.add-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin-bottom:1.25rem;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
+.form-grid.three{grid-template-columns:1fr 1fr 1fr;}
+.form-grid.full{grid-template-columns:1fr;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:10px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
+.field input,.field select,.field textarea{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
+.field textarea{resize:vertical;min-height:65px;}
+.color-swatch{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.swatch{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.swatch.sel{border-color:#333;}
+.legend{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.65rem .9rem;margin-bottom:1.1rem;font-size:12px;color:var(--text2);line-height:1.7;}
+.legend strong{color:var(--text);}
+.empty-state{text-align:center;padding:3rem;color:var(--text3);font-size:13px;}
+
+/* SHARE MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--r);padding:1.75rem;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1rem;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;}
+.share-url{width:100%;font-family:monospace;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);margin-top:8px;word-break:break-all;}
+.step{display:flex;gap:10px;margin-bottom:1rem;align-items:flex-start;}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:13px;color:var(--text);line-height:1.6;}
+.step-text strong{font-weight:500;}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--text);color:#fff;padding:.7rem 1.1rem;border-radius:var(--r-sm);font-size:13px;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;}
+.toast.show{opacity:1;}
+
+@media(max-width:680px){.sidebar{display:none;}.main{padding:1rem;}.form-grid,.form-grid.three{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">Lingua<span>Track</span></div>
+  <div class="header-btns">
+    <button class="btn btn-secondary btn-sm" onclick="openShareModal()">🔗 Share</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportData()">Export</button>
+    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importFile').click()">Import</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+  </div>
+</header>
+
+<div class="app">
+  <nav class="sidebar">
+    <div class="nav-label">Browse</div>
+    <div class="nav-item active" onclick="showPage('publications',this)"><span class="nav-icon">📄</span>Publications</div>
+    <div class="nav-item" onclick="showPage('scholars',this)"><span class="nav-icon">👤</span>Scholars</div>
+    <div class="nav-item" onclick="showPage('journals',this)"><span class="nav-icon">📚</span>Journals</div>
+    <div class="nav-label" style="margin-top:1rem;">Manage</div>
+    <div class="nav-item" onclick="showPage('add-pub',this)"><span class="nav-icon">＋</span>Add Publication</div>
+    <div class="nav-item" onclick="showPage('add-scholar',this)"><span class="nav-icon">＋</span>Add Scholar</div>
+    <div class="nav-item" onclick="showPage('add-journal',this)"><span class="nav-icon">＋</span>Add Journal</div>
+  </nav>
+  <main class="main" id="main-content"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">🔗 Share this tracker</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem;">The easiest way to share is via a free hosting service. Your data stays in the file — just re-upload whenever you add new entries.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Export your data</strong> — click Export above to download <code>linguatrack-data.json</code>. This keeps all your additions safe.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Host for free on Netlify Drop</strong> — go to <a href="https://app.netlify.com/drop" target="_blank">app.netlify.com/drop</a>, then drag and drop this HTML file. You'll get a permanent URL instantly (no account needed).</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Or use GitHub Pages</strong> — upload the HTML file to a GitHub repo, enable Pages in Settings → Pages. Free permanent URL at <code>username.github.io/repo-name</code>.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Share the URL</strong> with your wife. She can use the Import button to load the JSON data file, and Export to save any additions she makes.</div>
+    </div>
+
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.9rem;margin-top:.5rem;">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;">Pro tip</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6;">Both of you can keep a local copy of the JSON file and use Import/Export to sync. Think of it like a shared Google Doc but fully offline and private.</div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="exportData();closeModal()">Export now</button></div>
+  </div>
+</div>
+
+<script>
+const AVATARS=[{bg:'#dbeafe',fg:'#1e40af'},{bg:'#d1fae5',fg:'#065f46'},{bg:'#ede9fe',fg:'#4c1d95'},{bg:'#fee2e2',fg:'#7f1d1d'},{bg:'#fef3c7',fg:'#78350f'},{bg:'#fce7f3',fg:'#831843'},{bg:'#e0f2fe',fg:'#0c4a6e'},{bg:'#dcfce7',fg:'#14532d'}];
+const S_DOTS=['#378ADD','#1D9E75','#7F77DD','#D85A30','#639922','#BA7517','#E24B4A','#1a6060'];
+
+let db={
+  scholars:[
+    {id:'dai',name:'David Wei Dai',inst:'UCL, UK',dept:'IOE — Professional Communication',avIdx:0,hindex:12,citations:436,gs:'https://scholar.google.com/citations?user=7rJUwkEAAAAJ',tags:['Interactional competence','IC assessment','Human-AI interaction','Intercultural comm.'],type:'core',note:'AAAL Dissertation Award'},
+    {id:'zhu',name:'Zhu Hua',inst:'UCL, UK',dept:'IOE — Language Learning & Intercultural Comm.',avIdx:1,hindex:38,citations:8717,gs:'https://scholar.google.com/citations?user=FfsVMsIAAAAJ',tags:['Intercultural communication','Multilingualism','AI & language','Translanguaging'],type:'core',note:'Fellow, Academy of Social Sciences'},
+    {id:'vahid',name:'Vahid Aryadoust',inst:'NIE, NTU Singapore',dept:'English Language & Literature',avIdx:2,hindex:28,citations:3530,gs:'https://scholar.google.com/citations?user=qlxy_-kAAAAJ',tags:['Language assessment','AI/ML in testing','Eye-tracking','Rasch/IRT'],type:'core',note:'ILTA Best Article Award 2024'},
+    {id:'leung',name:'Constant Leung',inst:"King's College London, UK",dept:'Education',avIdx:3,hindex:24,citations:3200,gs:'https://scholar.google.com/',tags:['Formative assessment','Language pedagogy','EAL','Dynamic assessment'],type:'related',note:''},
+    {id:'fulcher',name:'Glenn Fulcher',inst:'Univ. of Leicester, UK',dept:'Applied Linguistics',avIdx:4,hindex:22,citations:2800,gs:'https://scholar.google.com/',tags:['Language testing','Oral assessment','Validity','Test design'],type:'related',note:''},
+    {id:'mcnamara',name:'Tim McNamara',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:5,hindex:30,citations:6100,gs:'https://scholar.google.com/',tags:['Language testing','Social dimensions','Discourse','Performance testing'],type:'related',note:''},
+    {id:'galaczi',name:'Elaine Galaczi',inst:'Cambridge Univ. Press & Assessment, UK',dept:'Research Division',avIdx:0,hindex:18,citations:1400,gs:'https://scholar.google.com/',tags:['Interactional competence','Speaking assessment','GenAI & education'],type:'related',note:''},
+    {id:'youn',name:'Soo Jung Youn',inst:'Northern Arizona Univ., USA',dept:'Applied Linguistics',avIdx:1,hindex:14,citations:900,gs:'https://scholar.google.com/',tags:['Pragmatics assessment','IC in interaction','Task-based assessment'],type:'related',note:''},
+    {id:'roever',name:'Carsten Roever',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:2,hindex:19,citations:1900,gs:'https://scholar.google.com/',tags:['Pragmatics testing','IC & proficiency','SLA'],type:'related',note:''},
+    {id:'jang',name:'Eunice Eunhee Jang',inst:'Univ. of Toronto, CA',dept:'Applied Psychology & Human Development',avIdx:6,hindex:22,citations:2200,gs:'https://scholar.google.com/',tags:['AI in assessment','Diagnostic assessment','NLP'],type:'related',note:'Language Testing 2025 paper'},
+  ],
+  publications:[
+    {id:'p1',scholarId:'dai',year:'2025',title:'Generative AI for professional communication training in intercultural contexts',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~12',url:'https://doi.org/10.1515/applirev-2024-0186',authors:'Dai, D.W., Suzuki, S. & Chen, G.',snip:'Examines how GenAI can be leveraged for professional communication training; addresses cultural stereotyping risks in LLMs.'},
+    {id:'p2',scholarId:'dai',year:'2025',title:'The interpretation-use argument — the essential ingredient for high quality assessment design',journal:'Advances in Health Sciences Education',if:'3.5',q:'Q1',cite:'~8',url:'https://doi.org/10.1007/s10459-024-10392-6',authors:'Raymond, J., Dai, D.W. & McAllister, S.',snip:"Applies Kane's validity framework to health professions education, bridging language assessment and clinical practice."},
+    {id:'p3',scholarId:'dai',year:'2024',title:'Interactional Competence for professional communication in intercultural contexts: Epistemology, analytic framework and pedagogy',journal:'Language, Culture and Curriculum',if:'2.8',q:'Q1',cite:'~25',url:'https://doi.org/10.1080/07908318.2024.2349781',authors:'Dai, D.W.',snip:'Proposes an analytic framework for IC in intercultural professional communication.'},
+    {id:'p4',scholarId:'dai',year:'2024',title:"Expanding Kane's argument-based validity framework for health professions education",journal:'Medical Education',if:'6.0',q:'Q1',cite:'~18',url:'https://doi.org/10.1111/medu.15452',authors:'Dai, D.W., Vu, T., Knoch, U. et al.',snip:"Bridges language assessment validation methodology and health professions education."},
+    {id:'p5',scholarId:'dai',year:'2024',title:'Assessing Interactional Competence: Principles, test development and validation through an L2 Chinese IC test',journal:'Peter Lang (Monograph)',if:'—',q:'—',cite:'~30',url:'https://doi.org/10.3726/b21295',authors:'Dai, D.W.',snip:'First full monograph on IC assessment; presents construct definition through test validation.'},
+    {id:'p6',scholarId:'dai',year:'2023',title:'On the promise of using Membership Categorization Analysis to investigate Interactional Competence',journal:'Applied Linguistics',if:'4.61',q:'Q1',cite:'~22',url:'https://doi.org/10.1093/applin/amad049',authors:'Dai, D.W. & Davey, M.',snip:'Demonstrates how MCA reveals categorial resources speakers draw on in interaction.'},
+    {id:'p7',scholarId:'zhu',year:'2025',title:'Exploring AI for intercultural communication: open conversation',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~18',url:'https://doi.org/10.1515/applirev-2024-0186',authors:'Zhu, H., Dai, D.W., Brandt, A. et al.',snip:'Forum piece mapping key challenges and opportunities for AI in intercultural communication research.'},
+    {id:'p8',scholarId:'zhu',year:'2025',title:'When AI meets intercultural communication: new frontiers, new agendas',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~35',url:'https://doi.org/10.1515/applirev-2024-0175',authors:'Dai, D.W. & Zhu, H.',snip:'Editorial introducing a special issue on AI and intercultural communication.'},
+    {id:'p9',scholarId:'zhu',year:'2024',title:'The Routledge Handbook of Applied Linguistics, Volume Two',journal:'Routledge (Edited volume)',if:'—',q:'—',cite:'~40',url:'https://www.routledge.com/9780367536244',authors:'Wei, L., Zhu, H. & Simpson, J. (Eds.)',snip:'Comprehensive handbook covering AI, translanguaging, and intercultural communication.'},
+    {id:'p10',scholarId:'zhu',year:'2024',title:'Enregisterment of tribalising digital discourse during the COVID-19 pandemic',journal:'Applied Linguistics',if:'4.61',q:'Q1',cite:'~28',url:'https://academic.oup.com/applij',authors:'Zhu, H. et al.',snip:'Shows how pandemic-era tribalism gave rise to enregistered digital discursive practices.'},
+    {id:'p11',scholarId:'vahid',year:'2025',title:'Why are some articles highly cited in applied linguistics?',journal:'Studies in Second Language Learning and Teaching',if:'2.8',q:'Q1',cite:'~10',url:'https://pressto.amu.edu.pl/index.php/ssllt',authors:'Zhang, S. & Aryadoust, V.',snip:'Identifies features that predict high citation rates in applied linguistics.'},
+    {id:'p12',scholarId:'vahid',year:'2024',title:'A systematic review of differential item functioning in second language assessment',journal:'Language Testing',if:'4.2',q:'Q1',cite:'~30',url:'https://doi.org/10.1177/02655322241290188',authors:'Chen, X., Aryadoust, V. & Zhang, W.',snip:'Reviews 83 articles on DIF and assessment fairness; Rasch methods dominant.'},
+    {id:'p13',scholarId:'vahid',year:'2024',title:'Eye-tracking and neuroimaging study of negative wording effects on cognitive load',journal:'Studies in Educational Evaluation',if:'3.1',q:'Q1',cite:'~14',url:'https://www.sciencedirect.com/journal/studies-in-educational-evaluation',authors:'Wang, X. & Aryadoust, V.',snip:'Uses eye-tracking and fNIRS to study cognitive load effects of negative wording.'},
+    {id:'p14',scholarId:'vahid',year:'2024',title:'A scientometric analysis of applied linguistics research (1970–2022)',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~42',url:'https://doi.org/10.1515/applirev-2022-0210',authors:'Zakaria, A. & Aryadoust, V.',snip:'Maps 52 years of applied linguistics bibliometrically; identifies emerging clusters.'},
+    {id:'p15',scholarId:'other',year:'2025',title:'Advancing language assessment in the era of the AI revolution: Promises and challenges',journal:'Language Testing',if:'4.2',q:'Q1',cite:'~20',url:'https://doi.org/10.1177/02655322251348685',authors:'Jang, E.E. & Sawaki, Y.',snip:"Reviews AI's transformative impact on assessment — validity, fairness, automated scoring."},
+    {id:'p16',scholarId:'other',year:'2025',title:'Revisiting communicative competence in the age of AI: Implications for large-scale testing',journal:'Annual Review of Applied Linguistics',if:'5.2',q:'Q1',cite:'~38',url:'https://www.cambridge.org/core/journals/annual-review-of-applied-linguistics',authors:'Galaczi, E. et al.',snip:'Re-examines communicative competence constructs in light of AI-driven assessment.'},
+    {id:'p17',scholarId:'other',year:'2024',title:'Feedforwarding diagnostic assessment: AI-driven feedback for L2 speaking',journal:'Language Testing',if:'4.2',q:'Q1',cite:'~22',url:'https://journals.sagepub.com/home/ltj',authors:'Multiple authors',snip:'AI moves beyond scoring to provide diagnostic feedback targeting speaking weaknesses.'},
+    {id:'p18',scholarId:'other',year:'2024',title:'The relationship between L2 interactional competence and proficiency',journal:'Applied Linguistics',if:'4.61',q:'Q1',cite:'~45',url:'https://doi.org/10.1093/applin/amad053',authors:'Roever, C. & Ikeda, N.',snip:'Examines how IC develops relative to general L2 proficiency, with implications for assessment design.'},
+  ],
+  journals:[
+    {id:'j1',name:'Applied Linguistics',pub:'Oxford University Press',url:'https://academic.oup.com/applij',if:'4.61',sjr:'1.763',cs:'8.2',q:'Q1',hi:132,note:'Flagship journal. Core outlet for Dai & Zhu Hua. Highest prestige in the field.'},
+    {id:'j2',name:'Applied Linguistics Review',pub:'De Gruyter',url:'https://www.degruyter.com/journal/key/applirev/html',if:'4.10',sjr:'1.188',cs:'5.9',q:'Q1',hi:37,note:'Open access. Special issue co-edited by Dai & Zhu Hua (2025). Rapidly rising impact.'},
+    {id:'j3',name:'Research Methods in Applied Linguistics',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/research-methods-in-applied-linguistics',if:'12.45',sjr:'2.452',cs:'—',q:'Q1',hi:14,note:'Highest IF in the entire field. Methodologically focused, growing fast.'},
+    {id:'j4',name:'Annual Review of Applied Linguistics',pub:'Cambridge University Press',url:'https://www.cambridge.org/core/journals/annual-review-of-applied-linguistics',if:'5.2',sjr:'2.1',cs:'9.4',q:'Q1',hi:68,note:'Review-focused. Galaczi et al. 2025 AI & communicative competence paper here.'},
+    {id:'j5',name:'Language Testing',pub:'SAGE',url:'https://journals.sagepub.com/home/ltj',if:'4.2',sjr:'1.5',cs:'5.7',q:'Q1',hi:76,note:'Primary outlet for Aryadoust. ILTA Best Article winners published here since 1984.'},
+    {id:'j6',name:'Language Assessment Quarterly',pub:'Taylor & Francis',url:'https://www.tandfonline.com/journals/hlaq20',if:'2.44',sjr:'1.253',cs:'3.5',q:'Q1',hi:39,note:'Dedicated assessment journal. Both Dai & Aryadoust publish here regularly.'},
+    {id:'j7',name:'Language Teaching Research',pub:'SAGE',url:'https://journals.sagepub.com/home/ltr',if:'3.8',sjr:'1.1',cs:'6.4',q:'Q1',hi:62,note:'Pedagogically oriented. Frequent outlet for Dai\'s IC work.'},
+    {id:'j8',name:'Language, Culture and Curriculum',pub:'Taylor & Francis',url:'https://www.tandfonline.com/journals/rlcc20',if:'2.8',sjr:'0.9',cs:'4.1',q:'Q1',hi:35,note:'Cross-disciplinary. Dai 2024 PCIC framework paper published here.'},
+    {id:'j9',name:'Studies in Educational Evaluation',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/studies-in-educational-evaluation',if:'3.1',sjr:'1.0',cs:'5.0',q:'Q1',hi:55,note:'Key journal for Aryadoust\'s neuroimaging and DIF studies.'},
+    {id:'j10',name:'Medical Education',pub:'Wiley',url:'https://asmepublications.onlinelibrary.wiley.com/journal/13652923',if:'6.0',sjr:'2.2',cs:'9.8',q:'Q1',hi:120,note:'High-IF interdisciplinary journal. Dai\'s health communication and validity work appears here.'},
+    {id:'j11',name:'Journal of English for Academic Purposes',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/journal-of-english-for-academic-purposes',if:'3.5',sjr:'1.2',cs:'6.1',q:'Q1',hi:72,note:'Covers EAP including oral and interactive communication tasks.'},
+    {id:'j12',name:'Studies in Second Language Learning and Teaching',pub:'Adam Mickiewicz Univ.',url:'https://pressto.amu.edu.pl/index.php/ssllt',if:'2.8',sjr:'0.9',cs:'4.5',q:'Q1',hi:28,note:'Open access. Aryadoust 2025 citation analysis paper published here.'},
+  ]
+};
+
+let selYear=0,selScholar=0;
+const yearOpts=['All years','2025','2024','2023'];
+const insightCache={};
+let pickedAv=0;
+
+function getScholarOpts(){
+  const core=db.scholars.filter(s=>s.type==='core').map(s=>s.name);
+  return['All scholars',...core,'Related scholars'];
+}
+function av(s){const a=AVATARS[s.avIdx%AVATARS.length];return`background:${a.bg};color:${a.fg};`;}
+function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
+function dot(s){return S_DOTS[s.avIdx%S_DOTS.length];}
+function badgeY(y){return y==='2025'?'b-25':y==='2024'?'b-24':'b-23';}
+function uid(){return 's_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+function openShareModal(){document.getElementById('modal-bg').classList.add('open');}
+function closeModal(){document.getElementById('modal-bg').classList.remove('open');}
+function saveLocal(){try{localStorage.setItem('lt_db',JSON.stringify(db));}catch(e){}}
+function loadLocal(){try{const s=localStorage.getItem('lt_db');if(s){const p=JSON.parse(s);if(p.scholars&&p.publications&&p.journals)db=p;}}catch(e){}}
+
+function showPage(page,navEl){
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  if(navEl)navEl.classList.add('active');
+  const main=document.getElementById('main-content');
+  if(page==='publications')renderPublications(main);
+  else if(page==='scholars')renderScholars(main);
+  else if(page==='journals')renderJournals(main);
+  else if(page==='add-pub')renderAddPub(main);
+  else if(page==='add-scholar')renderAddScholar(main);
+  else if(page==='add-journal')renderAddJournal(main);
+}
+
+function makeWheel(cId,iId,opts,sel,onChange){
+  const c=document.getElementById(cId),inner=document.getElementById(iId);
+  const H=36;let cur=sel;
+  function render(){inner.innerHTML=opts.map((o,i)=>`<div class="wheel-item${i===cur?' sel':''}" data-i="${i}">${o}</div>`).join('');inner.style.transform=`translateY(${(1-cur)*H}px)`;}
+  function setIdx(i){i=Math.max(0,Math.min(opts.length-1,Math.round(i)));if(i===cur)return;cur=i;render();onChange(i);}
+  inner.addEventListener('click',e=>{const el=e.target.closest('.wheel-item');if(el)setIdx(+el.dataset.i);});
+  let sy=0,si=0,drag=false;
+  c.addEventListener('mousedown',e=>{drag=true;sy=e.clientY;si=cur;e.preventDefault();});
+  window.addEventListener('mousemove',e=>{if(!drag)return;setIdx(si+(sy-e.clientY)/H);});
+  window.addEventListener('mouseup',()=>{drag=false;});
+  c.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;si=cur;},{passive:true});
+  c.addEventListener('touchmove',e=>{setIdx(si+(sy-e.touches[0].clientY)/H);e.preventDefault();},{passive:false});
+  c.addEventListener('wheel',e=>{setIdx(cur+(e.deltaY>0?1:-1));e.preventDefault();},{passive:false});
+  render();
+}
+
+function renderPublications(main){
+  const sOpts=getScholarOpts();
+  main.innerHTML=`
+    <div class="page-title">Publications</div>
+    <div class="page-sub">Scroll wheels to filter · click a title to open the paper</div>
+    <div class="filter-bar">
+      <div class="wheel-group"><div class="wheel-lbl">Year</div>
+        <div class="wheel-outer" id="wY"><div class="wf-top"></div><div class="wf-line"></div><div class="wf-bot"></div><div class="wheel-inner" id="wYI"></div></div></div>
+      <div class="wheel-group"><div class="wheel-lbl">Scholar</div>
+        <div class="wheel-outer wide" id="wS"><div class="wf-top"></div><div class="wf-line"></div><div class="wf-bot"></div><div class="wheel-inner" id="wSI"></div></div></div>
+      <div class="filter-count" id="fCount"></div>
+    </div>
+    <div id="pubResults"></div>`;
+  makeWheel('wY','wYI',yearOpts,selYear,i=>{selYear=i;updatePubs();});
+  makeWheel('wS','wSI',sOpts,Math.min(selScholar,sOpts.length-1),i=>{selScholar=i;updatePubs();});
+  updatePubs();
+}
+
+function updatePubs(){
+  const sOpts=getScholarOpts();
+  const yv=yearOpts[selYear];
+  const sv=sOpts[Math.min(selScholar,sOpts.length-1)];
+  let filtered=db.publications.filter(p=>{
+    const yOk=yv==='All years'||p.year===yv;
+    let sOk=true;
+    if(sv==='Related scholars'){sOk=p.scholarId==='other'||!db.scholars.find(s=>s.id===p.scholarId&&s.type==='core');}
+    else if(sv!=='All scholars'){const sc=db.scholars.find(s=>s.name===sv);sOk=sc?p.scholarId===sc.id:false;}
+    return yOk&&sOk;
+  });
+  document.getElementById('fCount').textContent=`${filtered.length} publication${filtered.length!==1?'s':''}`;
+  const groups={};
+  filtered.forEach(p=>{(groups[p.scholarId]||(groups[p.scholarId]=[])).push(p);});
+  const order=['dai','zhu','vahid',...Object.keys(groups).filter(k=>!['dai','zhu','vahid'].includes(k))];
+  let html='';
+  if(!filtered.length){html=`<div class="empty-state">No publications match this filter.</div>`;}
+  order.forEach(sid=>{
+    if(!groups[sid])return;
+    const sc=db.scholars.find(s=>s.id===sid);
+    const label=sc?sc.name:'Related scholars';
+    const dc=sc?dot(sc):'#D85A30';
+    html+=`<div class="s-hdr"><span class="sdot" style="background:${dc}"></span>${label}<span style="font-weight:300;color:var(--text3);margin-left:4px;">(${groups[sid].length})</span></div>`;
+    groups[sid].forEach(p=>{
+      html+=`<div class="pub-card">
+        <div class="pub-top">
+          <div class="pub-title">${p.url?`<a href="${p.url}" target="_blank">${p.title}</a>`:p.title}</div>
+          <div class="badges"><span class="badge ${badgeY(p.year)}">${p.year}</span>${p.q&&p.q!=='—'?`<span class="badge b-q1">${p.q}</span>`:''}</div>
+        </div>
+        <div class="pub-meta">${p.journal}${p.if&&p.if!=='—'?` · IF ${p.if}`:''}</div>
+        <div class="pub-meta" style="color:var(--text3);">${p.authors}</div>
+        ${p.snip?`<div class="pub-snip">${p.snip}</div>`:''}
+        <div class="pub-foot">
+          ${p.cite?`<div class="pub-stat">Citations: <strong>${p.cite}</strong></div>`:''}
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn btn-secondary btn-sm" onclick="editPub('${p.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePub('${p.id}')">Delete</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+  document.getElementById('pubResults').innerHTML=html;
+}
+
+/* ── SCHOLARS + AI INSIGHT ── */
+function renderScholars(main){
+  const core=db.scholars.filter(s=>s.type==='core');
+  const rel=db.scholars.filter(s=>s.type==='related');
+  let html=`<div class="page-title">Scholars</div><div class="page-sub">Click "Research Insights" to get an AI summary of a scholar's latest research focus</div>`;
+  html+=`<div class="s-hdr"><span class="sdot" style="background:#1D9E75"></span>Core scholars</div><div class="sch-grid">`;
+  core.forEach(s=>{html+=scholarCard(s);});
+  html+=`</div><div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#7F77DD"></span>Related scholars</div><div class="sch-grid">`;
+  rel.forEach(s=>{html+=scholarCard(s);});
+  html+=`</div>`;
+  main.innerHTML=html;
+}
+
+function scholarCard(s){
+  const pc=db.publications.filter(p=>p.scholarId===s.id).length;
+  return`<div class="sch-card">
+    <div class="sch-av" style="${av(s)}">${initials(s.name)}</div>
+    <div class="sch-name">${s.name}</div>
+    <div class="sch-inst">${s.inst}<br>${s.dept}</div>
+    <div class="sch-row">
+      <div class="sch-stat"><strong>${s.hindex}</strong><br>h-index</div>
+      <div class="sch-stat"><strong>${s.citations.toLocaleString()}</strong><br>citations</div>
+      <div class="sch-stat"><strong>${pc}</strong><br>tracked</div>
+    </div>
+    <div class="sch-tags">${s.tags.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
+    <div class="sch-footer">
+      <span class="pill ${s.type==='core'?'pill-core':'pill-rel'}">${s.type==='core'?'Core':'Related'}</span>
+      ${s.note?`<span style="font-size:10px;color:var(--text3);">${s.note}</span>`:''}
+      ${s.gs?`<a href="${s.gs}" target="_blank" style="font-size:11px;margin-left:auto;">Scholar ↗</a>`:''}
+    </div>
+    <div style="display:flex;gap:5px;margin-top:9px;flex-wrap:wrap;">
+      <button class="btn btn-ai btn-sm" onclick="toggleInsight('${s.id}')">✦ Research Insights</button>
+      <button class="btn btn-secondary btn-sm" onclick="editScholar('${s.id}')">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteScholar('${s.id}')">Delete</button>
+    </div>
+    <div id="insight-${s.id}"></div>
+  </div>`;
+}
+
+function toggleInsight(sid){
+  const el=document.getElementById(`insight-${sid}`);
+  if(el.dataset.open==='1'){el.innerHTML='';el.dataset.open='0';return;}
+  el.dataset.open='1';
+  if(insightCache[sid]){el.innerHTML=insightCache[sid];return;}
+  generateInsight(sid,el);
+}
+
+async function generateInsight(sid,el){
+  const sc=db.scholars.find(s=>s.id===sid);
+  if(!sc){return;}
+  const pubs=db.publications.filter(p=>p.scholarId===sid);
+  const pubList=pubs.map(p=>`- "${p.title}" (${p.year}), ${p.journal}. ${p.snip||''}`).join('\n');
+
+  el.innerHTML=`<div class="insight-panel"><div class="insight-header">
+    <div style="font-size:18px;">✦</div>
+    <div><div class="sub">AI Research Insight</div><h3>${sc.name} — Research Focus & Trends</h3></div>
+  </div>
+  <div class="insight-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>Analysing publications...</div></div>`;
+
+  const prompt=`You are an academic research analyst specialising in applied linguistics.
+
+Scholar: ${sc.name} (${sc.inst}, ${sc.dept})
+Research tags: ${sc.tags.join(', ')}
+h-index: ${sc.hindex}, Citations: ${sc.citations}
+
+Tracked publications:
+${pubList||'No specific publications tracked yet — use the scholar profile and their Google Scholar page.'}
+
+Based on the above, write a concise academic analysis (in English, ~250 words) covering:
+
+### Current Research Focus
+What is this scholar currently most focused on? What are their 2–3 core research themes?
+
+### Recent Trends & Trajectory
+How has their work evolved recently (2023–2025)? What new directions are they pursuing?
+
+### Key Contributions
+What are their most impactful contributions to the field?
+
+### What to Watch
+What upcoming topics or research questions seem likely based on their trajectory?
+
+Be specific, analytical, and useful for a PhD researcher tracking this scholar's work. Avoid generic statements.`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    let text='';
+    if(data.content)data.content.forEach(b=>{if(b.type==='text')text+=b.text;});
+    if(!text)throw new Error('No response');
+
+    // convert markdown to HTML
+    text=text
+      .replace(/### (.+)/g,'<h4>$1</h4>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/^- (.+)/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/gs,m=>`<ul>${m}</ul>`)
+      .split('\n\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('');
+
+    const html=`<div class="insight-panel"><div class="insight-header">
+      <div style="font-size:18px;">✦</div>
+      <div><div class="sub">AI Research Insight · Generated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      <h3>${sc.name} — Research Focus & Trends</h3></div>
+    </div>
+    <div class="insight-body"><div class="insight-text">${text}</div></div></div>`;
+    el.innerHTML=html;
+    insightCache[sid]=html;
+  }catch(err){
+    el.innerHTML=`<div class="insight-panel"><div class="insight-body"><div class="insight-error">Could not generate insight. Make sure you are using this tool within Claude.ai, where the API is available. Error: ${err.message}</div></div></div>`;
+  }
+}
+
+function renderJournals(main){
+  main.innerHTML=`<div class="page-title">Journals & Rankings</div>
+  <div class="page-sub">Key publication outlets with impact metrics (2024)</div>
+  <div class="legend"><strong>IF</strong> = Impact Factor (Clarivate) · <strong>SJR</strong> = SCImago Journal Rank · <strong>CiteScore</strong> = Scopus 4-year avg · <strong>Q1</strong> = top 25% in linguistics</div>
+  <div>${db.journals.map(j=>`
+    <div class="jrnl-card">
+      <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
+      <div class="jrnl-pub">${j.pub}</div>
+      <div class="metrics">
+        <span class="metric">IF <strong>${j.if}</strong></span>
+        <span class="metric">SJR <strong>${j.sjr}</strong></span>
+        ${j.cs&&j.cs!=='—'?`<span class="metric">CiteScore <strong>${j.cs}</strong></span>`:''}
+        <span class="metric">h-index <strong>${j.hi}</strong></span>
+      </div>
+      <div class="jrnl-note">${j.note}</div>
+      <div style="display:flex;gap:5px;margin-top:8px;">
+        <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function renderAddPub(main){
+  const opts=db.scholars.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  main.innerHTML=`<div class="page-title">Add Publication</div><div class="page-sub">Track a new paper or book chapter</div>
+  <div class="add-section">
+    <div class="form-grid full"><div class="field"><label>Title *</label><input id="f-title" placeholder="Full paper title"></div></div>
+    <div class="form-grid">
+      <div class="field"><label>Scholar</label><select id="f-scholar"><option value="other">Other / Related</option>${opts}</select></div>
+      <div class="field"><label>Year *</label><input id="f-year" placeholder="e.g. 2025" maxlength="4"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Journal / Venue *</label><input id="f-journal" placeholder="e.g. Applied Linguistics"></div>
+      <div class="field"><label>Authors</label><input id="f-authors" placeholder="e.g. Dai, D.W. & Smith, J."></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Impact Factor</label><input id="f-if" placeholder="e.g. 4.61"></div>
+      <div class="field"><label>Quartile</label><select id="f-q"><option value="">—</option><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Citations (approx)</label><input id="f-cite" placeholder="e.g. ~25"></div>
+      <div class="field"><label>URL / DOI</label><input id="f-url" placeholder="https://doi.org/..."></div>
+    </div>
+    <div class="form-grid full"><div class="field"><label>Summary</label><textarea id="f-snip" placeholder="One or two sentences summarising the key contribution..."></textarea></div></div>
+    <div style="margin-top:.75rem;"><button class="btn btn-primary" id="savePubBtn" onclick="savePub()">Save Publication</button></div>
+  </div>
+  <div id="recent-pubs"></div>`;
+  renderRecentPubs();
+}
+
+function renderRecentPubs(){
+  const el=document.getElementById('recent-pubs');
+  if(!el)return;
+  const last=[...db.publications].reverse().slice(0,5);
+  if(!last.length)return;
+  el.innerHTML=`<div class="s-hdr">Recently added</div>`+last.map(p=>`
+    <div class="pub-card">
+      <div class="pub-top"><div class="pub-title">${p.url?`<a href="${p.url}" target="_blank">${p.title}</a>`:p.title}</div>
+      <div class="badges"><span class="badge ${badgeY(p.year)}">${p.year}</span></div></div>
+      <div class="pub-meta">${p.journal} · ${p.authors}</div>
+    </div>`).join('');
+}
+
+function savePub(existingId){
+  const title=document.getElementById('f-title').value.trim();
+  const year=document.getElementById('f-year').value.trim();
+  const journal=document.getElementById('f-journal').value.trim();
+  if(!title||!year||!journal){showToast('Please fill in Title, Year and Journal.');return;}
+  const p={id:existingId||uid(),scholarId:document.getElementById('f-scholar').value,year,title,journal,
+    authors:document.getElementById('f-authors').value.trim(),
+    if:document.getElementById('f-if').value.trim()||'—',
+    q:document.getElementById('f-q').value||'—',
+    cite:document.getElementById('f-cite').value.trim(),
+    url:document.getElementById('f-url').value.trim(),
+    snip:document.getElementById('f-snip').value.trim()};
+  if(existingId){const i=db.publications.findIndex(x=>x.id===existingId);if(i>=0)db.publications[i]=p;}
+  else db.publications.push(p);
+  saveLocal();
+  showToast(existingId?'Publication updated!':'Publication added!');
+  renderAddPub(document.getElementById('main-content'));
+}
+
+function renderAddScholar(main){
+  main.innerHTML=`<div class="page-title">Add Scholar</div><div class="page-sub">Track a new researcher in this field</div>
+  <div class="add-section">
+    <div class="form-grid">
+      <div class="field"><label>Full name *</label><input id="s-name" placeholder="e.g. Glenn Fulcher"></div>
+      <div class="field"><label>Institution *</label><input id="s-inst" placeholder="e.g. University of Leicester, UK"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Department</label><input id="s-dept" placeholder="e.g. Applied Linguistics"></div>
+      <div class="field"><label>Type</label><select id="s-type"><option value="related">Related scholar</option><option value="core">Core scholar</option></select></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>h-index</label><input id="s-h" type="number" placeholder="e.g. 22"></div>
+      <div class="field"><label>Total citations</label><input id="s-cit" type="number" placeholder="e.g. 3200"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Google Scholar URL</label><input id="s-gs" placeholder="https://scholar.google.com/citations?user=..."></div>
+      <div class="field"><label>Note / award</label><input id="s-note" placeholder="e.g. ILTA Best Article 2024"></div>
+    </div>
+    <div class="form-grid full"><div class="field"><label>Research areas (comma-separated)</label><input id="s-tags" placeholder="e.g. Language assessment, AI in testing, Validity"></div></div>
+    <div class="form-grid full"><div class="field"><label>Avatar colour</label>
+      <div class="color-swatch" id="avPicker">${AVATARS.map((a,i)=>`<div class="swatch${i===0?' sel':''}" style="background:${a.bg};border-color:${i===0?'#333':'transparent'};" data-i="${i}" onclick="pickAv(${i})"></div>`).join('')}
+      </div></div></div>
+    <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveSchBtn" onclick="saveScholar()">Save Scholar</button></div>
+  </div>
+  <div id="all-sch"></div>`;
+  renderAllSch();
+}
+
+function renderAllSch(){
+  const el=document.getElementById('all-sch');if(!el)return;
+  el.innerHTML=`<div class="s-hdr">All tracked scholars</div><div class="sch-grid">`+
+    db.scholars.map(s=>`<div class="sch-card" style="padding:.75rem;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+        <div class="sch-av" style="${av(s)};width:32px;height:32px;font-size:11px;">${initials(s.name)}</div>
+        <div><div class="sch-name" style="font-size:13px;">${s.name}</div><div class="sch-inst">${s.inst}</div></div>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button class="btn btn-secondary btn-sm" onclick="editScholar('${s.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteScholar('${s.id}')">Delete</button>
+      </div></div>`).join('')+`</div>`;
+}
+
+function pickAv(i){
+  pickedAv=i;
+  document.querySelectorAll('.swatch').forEach((el,idx)=>{el.style.borderColor=idx===i?'#333':'transparent';el.classList.toggle('sel',idx===i);});
+}
+
+function saveScholar(existingId){
+  const name=document.getElementById('s-name').value.trim();
+  const inst=document.getElementById('s-inst').value.trim();
+  if(!name||!inst){showToast('Please fill in Name and Institution.');return;}
+  const tags=document.getElementById('s-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const s={id:existingId||uid(),name,inst,dept:document.getElementById('s-dept').value.trim(),
+    type:document.getElementById('s-type').value,hindex:parseInt(document.getElementById('s-h').value)||0,
+    citations:parseInt(document.getElementById('s-cit').value)||0,gs:document.getElementById('s-gs').value.trim(),
+    note:document.getElementById('s-note').value.trim(),tags,avIdx:pickedAv};
+  if(existingId){const i=db.scholars.findIndex(x=>x.id===existingId);if(i>=0)db.scholars[i]=s;}
+  else db.scholars.push(s);
+  saveLocal();
+  showToast(existingId?'Scholar updated!':'Scholar added!');
+  renderAddScholar(document.getElementById('main-content'));
+}
+
+function renderAddJournal(main){
+  main.innerHTML=`<div class="page-title">Add Journal</div><div class="page-sub">Track a new publication venue</div>
+  <div class="add-section">
+    <div class="form-grid">
+      <div class="field"><label>Journal name *</label><input id="j-name" placeholder="e.g. Language Testing"></div>
+      <div class="field"><label>Publisher</label><input id="j-pub" placeholder="e.g. SAGE Publications"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>URL</label><input id="j-url" placeholder="https://..."></div>
+      <div class="field"><label>Quartile</label><select id="j-q"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div>
+    </div>
+    <div class="form-grid three">
+      <div class="field"><label>Impact Factor</label><input id="j-if" placeholder="e.g. 4.20"></div>
+      <div class="field"><label>SJR</label><input id="j-sjr" placeholder="e.g. 1.50"></div>
+      <div class="field"><label>CiteScore</label><input id="j-cs" placeholder="e.g. 5.7"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>h-index</label><input id="j-hi" type="number" placeholder="e.g. 76"></div>
+      <div class="field"></div>
+    </div>
+    <div class="form-grid full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal is relevant..."></textarea></div></div>
+    <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveJBtn" onclick="saveJournal()">Save Journal</button></div>
+  </div>
+  <div id="all-jrnls"></div>`;
+  renderAllJrnls();
+}
+
+function renderAllJrnls(){
+  const el=document.getElementById('all-jrnls');if(!el)return;
+  el.innerHTML=`<div class="s-hdr">All tracked journals</div>`+
+    db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;">
+      <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
+      <div class="jrnl-pub">${j.pub}</div>
+      <div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span>${j.cs&&j.cs!=='—'?`<span class="metric">CiteScore <strong>${j.cs}</strong></span>`:''}</div>
+      <div style="display:flex;gap:5px;margin-top:8px;">
+        <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
+      </div></div>`).join('');
+}
+
+function saveJournal(existingId){
+  const name=document.getElementById('j-name').value.trim();
+  if(!name){showToast('Please enter a journal name.');return;}
+  const j={id:existingId||uid(),name,pub:document.getElementById('j-pub').value.trim(),url:document.getElementById('j-url').value.trim(),
+    q:document.getElementById('j-q').value,if:document.getElementById('j-if').value.trim()||'—',
+    sjr:document.getElementById('j-sjr').value.trim()||'—',cs:document.getElementById('j-cs').value.trim()||'—',
+    hi:parseInt(document.getElementById('j-hi').value)||0,note:document.getElementById('j-note').value.trim()};
+  if(existingId){const i=db.journals.findIndex(x=>x.id===existingId);if(i>=0)db.journals[i]=j;}
+  else db.journals.push(j);
+  saveLocal();
+  showToast(existingId?'Journal updated!':'Journal added!');
+  renderAddJournal(document.getElementById('main-content'));
+}
+
+function editPub(id){
+  const p=db.publications.find(x=>x.id===id);if(!p)return;
+  showPage('add-pub',null);
+  setTimeout(()=>{
+    document.getElementById('f-title').value=p.title;document.getElementById('f-scholar').value=p.scholarId;
+    document.getElementById('f-year').value=p.year;document.getElementById('f-journal').value=p.journal;
+    document.getElementById('f-authors').value=p.authors||'';document.getElementById('f-if').value=p.if||'';
+    document.getElementById('f-q').value=p.q||'';document.getElementById('f-cite').value=p.cite||'';
+    document.getElementById('f-url').value=p.url||'';document.getElementById('f-snip').value=p.snip||'';
+    const btn=document.getElementById('savePubBtn');btn.textContent='Update Publication';btn.onclick=()=>savePub(id);
+  },60);
+}
+function editScholar(id){
+  const s=db.scholars.find(x=>x.id===id);if(!s)return;
+  showPage('add-scholar',null);
+  setTimeout(()=>{
+    document.getElementById('s-name').value=s.name;document.getElementById('s-inst').value=s.inst;
+    document.getElementById('s-dept').value=s.dept||'';document.getElementById('s-type').value=s.type;
+    document.getElementById('s-h').value=s.hindex||'';document.getElementById('s-cit').value=s.citations||'';
+    document.getElementById('s-gs').value=s.gs||'';document.getElementById('s-note').value=s.note||'';
+    document.getElementById('s-tags').value=(s.tags||[]).join(', ');
+    pickedAv=s.avIdx||0;pickAv(pickedAv);
+    const btn=document.getElementById('saveSchBtn');btn.textContent='Update Scholar';btn.onclick=()=>saveScholar(id);
+  },60);
+}
+function editJournal(id){
+  const j=db.journals.find(x=>x.id===id);if(!j)return;
+  showPage('add-journal',null);
+  setTimeout(()=>{
+    document.getElementById('j-name').value=j.name;document.getElementById('j-pub').value=j.pub||'';
+    document.getElementById('j-url').value=j.url||'';document.getElementById('j-q').value=j.q||'Q1';
+    document.getElementById('j-if').value=j.if||'';document.getElementById('j-sjr').value=j.sjr||'';
+    document.getElementById('j-cs').value=j.cs||'';document.getElementById('j-hi').value=j.hi||'';
+    document.getElementById('j-note').value=j.note||'';
+    const btn=document.getElementById('saveJBtn');btn.textContent='Update Journal';btn.onclick=()=>saveJournal(id);
+  },60);
+}
+
+function deletePub(id){if(!confirm('Delete this publication?'))return;db.publications=db.publications.filter(p=>p.id!==id);saveLocal();showToast('Deleted.');updatePubs();}
+function deleteScholar(id){if(!confirm('Delete this scholar?'))return;db.scholars=db.scholars.filter(s=>s.id!==id);saveLocal();showToast('Scholar deleted.');showPage('add-scholar',null);}
+function deleteJournal(id){if(!confirm('Delete this journal?'))return;db.journals=db.journals.filter(j=>j.id!==id);saveLocal();showToast('Journal deleted.');showPage('add-journal',null);}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='linguatrack-data.json';a.click();
+  showToast('Data exported!');
+}
+function importData(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{const p=JSON.parse(ev.target.result);
+      if(p.scholars&&p.publications&&p.journals){db=p;saveLocal();showToast('Data imported!');showPage('publications',document.querySelector('.nav-item'));}
+      else showToast('Invalid file format.');
+    }catch{showToast('Could not read file.');}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+loadLocal();
+showPage('publications',document.querySelector('.nav-item'));
+</script>
+</body>
+</html>
