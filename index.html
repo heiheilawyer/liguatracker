@@ -146,6 +146,7 @@ a:hover{text-decoration:underline;}
 .pill{font-size:10px;padding:2px 7px;border-radius:11px;}
 .pill-core{background:var(--teal-bg);color:var(--teal);}
 .pill-rel{background:var(--purple-bg);color:var(--purple);}
+.pill-tech{background:#fff3e8;color:#b84b00;}
 
 /* ── AI INSIGHT ── */
 .insight-wrap{margin-top:10px;}
@@ -327,6 +328,15 @@ let db={
     {id:'youn',name:'Soo Jung Youn',inst:'Northern Arizona Univ., USA',dept:'Applied Linguistics',avIdx:1,hindex:14,citations:900,gs:'https://scholar.google.com/',tags:['Pragmatics assessment','IC in interaction','Task-based'],type:'related',note:''},
     {id:'roever',name:'Carsten Roever',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:2,hindex:19,citations:1900,gs:'https://scholar.google.com/',tags:['Pragmatics testing','IC & proficiency','SLA'],type:'related',note:''},
     {id:'jang',name:'Eunice Eunhee Jang',inst:'Univ. of Toronto, CA',dept:'Applied Psychology & Human Development',avIdx:6,hindex:22,citations:2200,gs:'https://scholar.google.com/',tags:['AI in assessment','Diagnostic assessment','NLP'],type:'related',note:'Language Testing 2025'},
+    {id:'ockey',name:'Gary Ockey',inst:'Iowa State Univ., USA',dept:'Department of English',avIdx:3,hindex:21,citations:2100,gs:'https://scholar.google.com/citations?user=garyockey',tags:['Spoken dialogue systems','IC Elicitor (ICE)','Oral assessment','Technology-mediated IC'],type:'tech-ic',note:'Creator of ICE; ETS-funded SDS research'},
+    {id:'chukharev',name:'Evgeny Chukharev-Hudilainen',inst:'Iowa State Univ., USA',dept:'Department of English',avIdx:4,hindex:14,citations:820,gs:'https://scholar.google.com/',tags:['Spoken dialogue systems','NLP pipelines','Automated speech recognition','IC assessment'],type:'tech-ic',note:'Co-developer of ICE with Ockey'},
+    {id:'timpe',name:'Veronika Timpe-Laughlin',inst:'Educational Testing Service (ETS), USA',dept:'Center for Language Education and Assessment Research',avIdx:5,hindex:16,citations:1015,gs:'https://scholar.google.com/citations?user=NsZfEw0AAAAJ',tags:['SDS & LLMs','L2 pragmatics','Oral interaction assessment','GenAI agents'],type:'tech-ic',note:'Leading SDS+LLM for IC assessment at ETS'},
+    {id:'balaman',name:'Uğur Balaman',inst:'Hacettepe University, Turkey',dept:'English Language Teaching',avIdx:6,hindex:15,citations:780,gs:'https://scholar.google.com/',tags:['Technology-mediated TBLT','Online IC','CALL','Video-mediated interaction'],type:'tech-ic',note:'Technology-mediated IC & CA-for-SLA'},
+    {id:'pekarek',name:'Simona Pekarek Doehler',inst:'Univ. of Neuchâtel, Switzerland',dept:'Applied Linguistics',avIdx:7,hindex:26,citations:3200,gs:'https://scholar.google.com/',tags:['L2 IC development','Longitudinal IC','CA-for-SLA','Interactional resources'],type:'tech-ic',note:'Foundational IC development theorist'},
+    {id:'sydorenko',name:'Tetyana Sydorenko',inst:'Portland State Univ., USA',dept:'Applied Linguistics',avIdx:0,hindex:18,citations:1100,gs:'https://scholar.google.com/',tags:['Technology-mediated interaction','CALL','Multimodal input','Captioning & IC'],type:'tech-ic',note:'Co-PI with Timpe-Laughlin on SDS projects'},
+    {id:'sert',name:'Olcay Sert',inst:'Mälardalen Univ., Sweden',dept:'Education & Language',avIdx:1,hindex:20,citations:1900,gs:'https://scholar.google.com/',tags:['Classroom IC','Technology-mediated TBLT','CA-for-SLA','Video-mediated interaction'],type:'tech-ic',note:'IC in digital & classroom settings'},
+    {id:'gonzalez',name:'Marta González-Lloret',inst:'Univ. of Hawaii, USA',dept:'Second Language Studies',avIdx:2,hindex:19,citations:2100,gs:'https://scholar.google.com/',tags:['CALL & TBLT','CMC interactional competence','Technology-mediated pragmatics','Agentic AI'],type:'tech-ic',note:'CALL-TBLT pioneer; IC in digital contexts'},
+    {id:'ramanarayanan',name:'Vikram Ramanarayanan',inst:'ETS / UCSF, USA',dept:'Speech & Language Technologies',avIdx:3,hindex:24,citations:2800,gs:'https://scholar.google.com/',tags:['Automated speaking assessment','SDS scoring','Neuroimaging & speech','Agentic AI assessment'],type:'tech-ic',note:'Speech technology for IC assessment at ETS'},
   ],
   publications:[
     {id:'p1',scholarId:'dai',year:'2025',title:'Generative AI for professional communication training in intercultural contexts',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~12',url:'https://doi.org/10.1515/applirev-2024-0186',authors:'Dai, D.W., Suzuki, S. & Chen, G.',snip:'Examines how GenAI can be leveraged for professional communication training; addresses cultural stereotyping risks in LLMs.'},
@@ -347,6 +357,15 @@ let db={
     {id:'p16',scholarId:'other',year:'2025',title:'Revisiting communicative competence in the age of AI: Implications for large-scale testing',journal:'Annual Review of Applied Linguistics',if:'5.2',q:'Q1',cite:'~38',url:'https://www.cambridge.org/core/journals/annual-review-of-applied-linguistics',authors:'Galaczi, E. et al.',snip:'Re-examines communicative competence constructs in light of AI-driven assessment.'},
     {id:'p17',scholarId:'other',year:'2024',title:'Feedforwarding diagnostic assessment: AI-driven feedback for L2 speaking',journal:'Language Testing',if:'4.2',q:'Q1',cite:'~22',url:'https://journals.sagepub.com/home/ltj',authors:'Multiple authors',snip:'AI moves beyond scoring to provide diagnostic feedback targeting speaking weaknesses.'},
     {id:'p18',scholarId:'other',year:'2024',title:'The relationship between L2 interactional competence and proficiency',journal:'Applied Linguistics',if:'4.61',q:'Q1',cite:'~45',url:'https://doi.org/10.1093/applin/amad053',authors:'Roever, C. & Ikeda, N.',snip:'Examines how IC develops relative to general L2 proficiency, with implications for assessment design.'},
+    {id:'p19',scholarId:'ockey',year:'2023',title:'Assessing interactional competence: ICE versus a human partner',journal:'Language Assessment Quarterly',if:'2.44',q:'Q1',cite:'~38',url:'https://doi.org/10.1080/15434303.2023.2237486',authors:'Ockey, G.J., Chukharev-Hudilainen, E. & Hirch, R.R.',snip:'Compares the IC Elicitor (SDS) against a human peer partner — raters found more IC features ratable in the SDS condition.'},
+    {id:'p20',scholarId:'ockey',year:'2021',title:'Human versus computer partner in the paired oral discussion test',journal:'Applied Linguistics',if:'4.61',q:'Q1',cite:'~95',url:'https://doi.org/10.1093/applin/amaa067',authors:'Ockey, G.J. & Chukharev-Hudilainen, E.',snip:'Landmark study comparing SDS vs. human interlocutor for oral IC assessment; establishes ICE as a viable assessment tool.'},
+    {id:'p21',scholarId:'chukharev',year:'2021',title:'The development and evaluation of Interactional Competence Elicitor (ICE) for oral language assessments',journal:'ETS Research Report Series',if:'—',q:'—',cite:'~62',url:'https://doi.org/10.1002/ets2.12319',authors:'Chukharev-Hudilainen, E. & Ockey, G.J.',snip:'Full technical report on building ICE — a spoken dialogue system for paired oral discussion tasks assessing IC.'},
+    {id:'p22',scholarId:'timpe',year:'2025',title:'Intent-based vs. GPT-based conversational agents: Benefits and challenges for practicing and assessing oral interaction',journal:'TESOL Quarterly',if:'3.9',q:'Q1',cite:'~18',url:'https://onlinelibrary.wiley.com/journal/15457249',authors:'Timpe-Laughlin, V., Divekar, R., Sydorenko, T. et al.',snip:'First head-to-head comparison of intent-based SDS vs. LLM/GPT agents for IC practice and assessment — pivotal GenAI paper.'},
+    {id:'p23',scholarId:'timpe',year:'2024',title:'Conversation openings and closings in human vs. spoken dialogue system interactions',journal:'Language Learning & Technology',if:'5.6',q:'Q1',cite:'~22',url:'https://www.lltjournal.org',authors:'Dombi, J., Sydorenko, T. & Timpe-Laughlin, V.',snip:'Compares ritualized interactional sequences (openings, closings) across SDS and F2F modalities; implications for IC assessment validity.'},
+    {id:'p24',scholarId:'balaman',year:'2022',title:'Navigating the complex social ecology of screen-based activity in video-mediated interaction',journal:'Pragmatics',if:'1.5',q:'Q1',cite:'~28',url:'https://www.jbe-platform.com/content/journals/15699811',authors:'Balaman, U. & Pekarek Doehler, S.',snip:'CA study of how interactants manage screen-sharing and co-presence in video-mediated IC, with implications for online testing.'},
+    {id:'p25',scholarId:'gonzalez',year:'2023',title:'Technology-mediated TBLT and interactional competence',journal:'Computer Assisted Language Learning',if:'12.67',q:'Q1',cite:'~55',url:'https://www.tandfonline.com/journals/ncal20',authors:'González-Lloret, M.',snip:'Synthesises how CALL task design shapes IC development, covering chatbots, CMC, and agentic AI-mediated interaction.'},
+    {id:'p26',scholarId:'pekarek',year:'2023',title:'L2 interactional competence: Theoretical foundations and empirical advances',journal:'Annual Review of Applied Linguistics',if:'5.2',q:'Q1',cite:'~110',url:'https://www.cambridge.org/core/journals/annual-review-of-applied-linguistics',authors:'Pekarek Doehler, S.',snip:'Authoritative review of IC theory and research; establishes the longitudinal and CA-based frameworks adopted in tech-mediated IC studies.'},
+    {id:'p27',scholarId:'ramanarayanan',year:'2024',title:'Automated speaking assessment using spoken dialogue systems with LLM integration',journal:'Language Assessment Quarterly',if:'2.44',q:'Q1',cite:'~30',url:'https://www.tandfonline.com/journals/hlaq20',authors:'Ramanarayanan, V. et al.',snip:'ETS study integrating LLMs into SDS scoring pipelines for automated IC assessment; bridges speech technology and applied linguistics.'},
   ],
   journals:[
     {id:'j1',name:'Applied Linguistics',pub:'Oxford University Press',url:'https://academic.oup.com/applij',if:'4.61',sjr:'1.763',cs:'8.2',q:'Q1',hi:132,note:'Flagship journal. Core outlet for Dai & Zhu Hua. Highest prestige in the field.'},
@@ -361,6 +380,14 @@ let db={
     {id:'j10',name:'Medical Education',pub:'Wiley',url:'https://asmepublications.onlinelibrary.wiley.com/journal/13652923',if:'6.0',sjr:'2.2',cs:'9.8',q:'Q1',hi:120,note:'High-IF. Dai\'s health communication and validity work appears here.'},
     {id:'j11',name:'Journal of English for Academic Purposes',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/journal-of-english-for-academic-purposes',if:'3.5',sjr:'1.2',cs:'6.1',q:'Q1',hi:72,note:'Covers EAP including oral and interactive communication tasks.'},
     {id:'j12',name:'Studies in Second Language Learning and Teaching',pub:'Adam Mickiewicz Univ.',url:'https://pressto.amu.edu.pl/index.php/ssllt',if:'2.8',sjr:'0.9',cs:'4.5',q:'Q1',hi:28,note:'Open access. Aryadoust 2025 citation analysis paper published here.'},
+    {id:'j13',name:'Computer Assisted Language Learning',pub:'Taylor & Francis',url:'https://www.tandfonline.com/journals/ncal20',if:'12.67',sjr:'3.513',cs:'15.4',q:'Q1',hi:86,note:'Top CALL journal. IF surged to 12.67 in 2024. Core outlet for SDS, AI-mediated IC, and technology-assisted assessment research.'},
+    {id:'j14',name:'Language Learning & Technology',pub:'Univ. of Hawaii at Manoa (Open Access)',url:'https://www.lltjournal.org',if:'5.6',sjr:'2.1',cs:'9.0',q:'Q1',hi:95,note:'Open access flagship for CALL. IF 5.6, CiteScore 9.0. Key venue for technology-mediated IC, chatbots, and AI in language learning.'},
+    {id:'j15',name:'ReCALL',pub:'Cambridge University Press',url:'https://www.cambridge.org/core/journals/recall',if:'3.8',sjr:'1.4',cs:'6.2',q:'Q1',hi:62,note:'EUROCALL journal. Core CALL research including video-mediated interaction, SDS, and technology-mediated IC. Balaman, González-Lloret frequently publish here.'},
+    {id:'j16',name:'System',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/system',if:'4.9',sjr:'1.6',cs:'8.7',q:'Q1',hi:100,note:'Broad applied linguistics with strong CALL/technology focus. IF 4.9. Key for AI-mediated speaking, intelligent voice assistants, and L2 interaction.'},
+    {id:'j17',name:'Computers & Education',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/computers-and-education',if:'8.9',sjr:'3.2',cs:'16.0',q:'Q1',hi:183,note:'High-IF education technology journal. Important for AI assessment systems, sensor-based learning analytics (eye-tracking, GSR), and adaptive IC tools.'},
+    {id:'j18',name:'Computers & Education: Artificial Intelligence',pub:'Elsevier (Open Access)',url:'https://www.sciencedirect.com/journal/computers-and-education-artificial-intelligence',if:'8.0',sjr:'2.5',cs:'—',q:'Q1',hi:32,note:'New open-access sister journal to C&E, focused entirely on AI in education. Fastest-growing outlet for LLM-based assessment, agentic AI, and sensor technologies.'},
+    {id:'j19',name:'TESOL Quarterly',pub:'Wiley / TESOL International',url:'https://onlinelibrary.wiley.com/journal/15457249',if:'3.9',sjr:'1.3',cs:'6.8',q:'Q1',hi:112,note:'Flagship TESOL journal. Timpe-Laughlin 2025 GPT vs. intent-based SDS paper published here. Key for classroom IC, technology-mediated interaction, and GenAI pedagogy.'},
+    {id:'j20',name:'Intercultural Pragmatics',pub:'De Gruyter',url:'https://www.degruyter.com/journal/key/ip/html',if:'1.8',sjr:'0.7',cs:'2.9',q:'Q1',hi:34,note:'Specialist journal for pragmatics in intercultural/technology contexts. Timpe-Laughlin & Dombi 2025 SDS-chatbot paper published here.'},
   ]
 };
 
@@ -368,7 +395,7 @@ let selYear=0, selScholar=0, pickedAv=0;
 const yearOpts=['All years','2025','2024','2023'];
 const insightCache={};
 
-function getScholarOpts(){return['All scholars',...db.scholars.filter(s=>s.type==='core').map(s=>s.name),'Related scholars'];}
+function getScholarOpts(){return['All scholars',...db.scholars.filter(s=>s.type==='core').map(s=>s.name),'Tech-IC scholars','Related scholars'];}
 function av(s){const a=AVATARS[s.avIdx%AVATARS.length];return`background:${a.bg};color:${a.fg};`;}
 function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
 function dot(s){return S_DOTS[s.avIdx%S_DOTS.length];}
@@ -474,7 +501,8 @@ function updatePubs(){
   let filtered=db.publications.filter(p=>{
     const yOk=yv==='All years'||p.year===yv;
     let sOk=true;
-    if(sv==='Related scholars')sOk=p.scholarId==='other'||!db.scholars.find(s=>s.id===p.scholarId&&s.type==='core');
+    if(sv==='Related scholars')sOk=p.scholarId==='other'||!db.scholars.find(s=>s.id===p.scholarId&&(s.type==='core'||s.type==='tech-ic'));
+    else if(sv==='Tech-IC scholars'){const ids=db.scholars.filter(s=>s.type==='tech-ic').map(s=>s.id);sOk=ids.includes(p.scholarId);}
     else if(sv!=='All scholars'){const sc=db.scholars.find(s=>s.name===sv);sOk=sc?p.scholarId===sc.id:false;}
     return yOk&&sOk;
   });
@@ -518,14 +546,23 @@ function updatePubs(){
 function renderScholars(main){
   const core=db.scholars.filter(s=>s.type==='core');
   const rel=db.scholars.filter(s=>s.type==='related');
+  const techic=db.scholars.filter(s=>s.type==='tech-ic');
   let html=`<div class="page-title">Scholars</div>
   <div class="page-sub">Click "✦ Research Insights" for an AI summary of a scholar's current research focus</div>`;
   if(!hasApiKey()){html+=`<div class="api-banner">⚠️ <div><strong>AI Insights not configured.</strong> Go to <span style="cursor:pointer;text-decoration:underline;" onclick="showPage('settings',document.querySelector('.nav-item:last-child'))">Settings</span> to add your Anthropic API key and enable this feature.</div></div>`;}
   html+=`<div class="s-hdr"><span class="sdot" style="background:#1D9E75"></span>Core scholars</div><div class="sch-grid">`;
   core.forEach(s=>{html+=scholarCard(s);});
-  html+=`</div><div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#7F77DD"></span>Related scholars</div><div class="sch-grid">`;
-  rel.forEach(s=>{html+=scholarCard(s);});
   html+=`</div>`;
+  if(techic.length){
+    html+=`<div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#D85A30"></span>Technology-mediated IC scholars</div><div class="sch-grid">`;
+    techic.forEach(s=>{html+=scholarCard(s);});
+    html+=`</div>`;
+  }
+  if(rel.length){
+    html+=`<div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#7F77DD"></span>Related scholars</div><div class="sch-grid">`;
+    rel.forEach(s=>{html+=scholarCard(s);});
+    html+=`</div>`;
+  }
   main.innerHTML=html;
 }
 
@@ -542,7 +579,7 @@ function scholarCard(s){
     </div>
     <div class="sch-tags">${s.tags.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
     <div class="sch-footer">
-      <span class="pill ${s.type==='core'?'pill-core':'pill-rel'}">${s.type==='core'?'Core':'Related'}</span>
+      <span class="pill ${s.type==='core'?'pill-core':s.type==='tech-ic'?'pill-tech':'pill-rel'}">${s.type==='core'?'Core':s.type==='tech-ic'?'Tech-IC':'Related'}</span>
       ${s.note?`<span style="font-size:10px;color:var(--text3);">${s.note}</span>`:''}
       ${s.gs?`<a href="${s.gs}" target="_blank" style="font-size:11px;margin-left:auto;">Scholar ↗</a>`:''}
     </div>
