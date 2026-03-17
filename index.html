@@ -1084,10 +1084,16 @@ ${journalList}
 ALREADY TRACKED (do not suggest):
 - ${existingList}
 
-TASK: Find real, verifiable 2024-2025 publications by tracked scholars in these journals, OR highly relevant papers about: spoken dialogue systems, AI/LLM oral assessment, interactional competence, sensor technologies in language assessment (eye-tracking, fNIRS, EEG), agentic AI in language learning.
+CORE RESEARCH FOCUS: Technology-mediated Interactional Competence (IC) assessment. Every suggested paper must address BOTH:
+(1) TECHNOLOGY: SDS, LLMs/GenAI as interlocutors, video-conferencing, telephone, computers, eye-tracking, fNIRS/EEG, agentic AI, intelligent voice assistants
+(2) INTERACTIONAL COMPETENCE: turn-taking, co-construction, sequence organization, topic management, repair, IC rating/assessment, CA-based analysis of interaction
+
+DO NOT suggest: writing/reading/vocabulary/grammar/listening papers without IC, general AI papers without language assessment focus, language testing without interactional component.
+
+TASK: Find real, verifiable 2024-2025 publications that sit at the intersection of TECHNOLOGY + INTERACTIONAL COMPETENCE ASSESSMENT.
 
 Return ONLY a JSON array of up to 8 objects, no markdown:
-[{"title":"...","authors":"...","year":"2024","journal":"...","scholarId":"id or other","url":"https://doi.org/...","if":"...","q":"Q1","cite":"~N","snip":"one sentence key finding","tech":["SDS","LLMs"]}]
+[{"title":"...","authors":"...","year":"2024","journal":"...","scholarId":"id or other","url":"https://doi.org/...","if":"...","q":"Q1","cite":"~N","snip":"one sentence on how this addresses technology-mediated IC assessment","tech":["SDS","LLMs"]}]
 
 Scholar IDs: ${scholars.map(s=>s.name+'→'+s.id).join(', ')}
 Only include publications you are confident exist. Return valid JSON only.`;

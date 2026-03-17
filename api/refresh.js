@@ -45,9 +45,19 @@ ${journalList}
 ALREADY TRACKED PUBLICATIONS (do not suggest these):
 - ${existingList}
 
-TASK: Search for and identify real, verifiable publications from 2024-2025 by the tracked scholars in the target journals, OR highly relevant publications in these journals about: spoken dialogue systems, AI/LLM-mediated oral assessment, interactional competence, technology-mediated communication assessment, sensor technologies in language assessment (eye-tracking, fNIRS, EEG), agentic AI in language learning.
+CORE RESEARCH FOCUS: Technology-mediated Interactional Competence (IC) assessment. This means studies where BOTH of these are present:
+(1) TECHNOLOGY: spoken dialogue systems (SDS), LLMs/GenAI as interlocutors, video-conferencing, telephone, computers, eye-tracking, fNIRS/EEG, agentic AI, intelligent voice assistants
+(2) INTERACTIONAL COMPETENCE: turn-taking, co-construction, sequence organization, topic management, repair, IC rating/assessment, CA-based analysis of interaction
 
-Return ONLY a JSON array (no markdown, no explanation) of up to 8 publication objects with this exact structure:
+STRICT EXCLUSION CRITERIA — do NOT suggest papers that are:
+- About writing assessment, reading, vocabulary, grammar, or listening without IC
+- General AI/LLM papers without language assessment or IC focus
+- Language testing papers without interactional or technology component
+- General applied linguistics or SLA without IC + technology intersection
+
+TASK: Find real, verifiable 2024-2025 publications by the tracked scholars OR papers in the target journals that sit squarely at the intersection of TECHNOLOGY + INTERACTIONAL COMPETENCE ASSESSMENT. Every suggested paper must directly address how technology mediates, elicits, or assesses interactional competence.
+
+Return ONLY a JSON array (no markdown, no explanation) of up to 8 publication objects:
 [
   {
     "title": "Full paper title",
@@ -59,14 +69,14 @@ Return ONLY a JSON array (no markdown, no explanation) of up to 8 publication ob
     "if": "impact factor number as string or —",
     "q": "Q1 or Q2 or —",
     "cite": "~N estimated citations",
-    "snip": "One sentence describing the key finding and relevance to IC assessment",
-    "tech": ["relevant tech tags from: SDS, Generative AI, LLMs, Eye-tracking, fNIRS, Brain waves, Agentic AI, Computer, Video-mediated, Telephone, Automated scoring"]
+    "snip": "One sentence describing how this paper addresses technology-mediated IC assessment specifically",
+    "tech": ["relevant tags: SDS, Generative AI, LLMs, Eye-tracking, fNIRS, Brain waves, Agentic AI, Computer, Video-mediated, Telephone, Automated scoring"]
   }
 ]
 
-Scholar IDs to use: ${scholars.map(s=>`${s.name}→${s.id}`).join(', ')}
+Scholar IDs: ${scholars.map(s=>`${s.name}→${s.id}`).join(', ')}
 
-Be accurate. Only include publications you are confident exist. If uncertain about a detail, use approximate values. Return valid JSON only.`;
+Only include publications you are confident exist. Return valid JSON only.`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
