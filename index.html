@@ -11,35 +11,57 @@
   --text:#1a1814;--text2:#6b6560;--text3:#a09a93;
   --accent:#2d5a8e;--accent2:#1a3d60;
   --green:#2a6b47;--green-bg:#eaf4ee;
-  --amber:#7a4f1a;--amber-bg:#fdf3e3;
   --purple:#4a3580;--purple-bg:#f0eeff;
   --red:#8a2828;--red-bg:#fdeaea;
   --teal:#1a6060;--teal-bg:#e6f4f4;
+  --amber:#7a4f1a;--amber-bg:#fdf3e3;
   --r:10px;--r-sm:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;}
-a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
+html,body{height:100%;width:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;overflow-x:hidden;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
 
-.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+/* ── HEADER ── */
+.site-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;
+  height:56px;position:sticky;top:0;z-index:100;width:100%;
+}
 .logo{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.3px;}
 .logo span{color:var(--accent);}
 .header-btns{display:flex;gap:6px;align-items:center;}
 
-.app{display:flex;min-height:calc(100vh - 58px);}
-.sidebar{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:1.25rem 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;}
-.main{flex:1;padding:1.75rem 2rem;max-width:880px;}
+/* ── APP SHELL ── */
+.app{display:flex;width:100%;min-height:calc(100vh - 56px);}
 
-.nav-label{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:0 1.1rem;margin-bottom:.4rem;margin-top:.5rem;}
-.nav-item{display:flex;align-items:center;gap:9px;padding:.5rem 1.1rem;font-size:13px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;}
+/* ── SIDEBAR ── */
+.sidebar{
+  width:200px;flex-shrink:0;
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:1.25rem 0;
+  position:sticky;top:56px;height:calc(100vh - 56px);
+  overflow-y:auto;
+}
+.nav-label{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:0 1rem;margin-bottom:.4rem;margin-top:.75rem;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:.5rem 1rem;font-size:13px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;}
 .nav-item:hover{background:var(--surface2);color:var(--text);}
 .nav-item.active{background:var(--surface2);color:var(--accent);border-left-color:var(--accent);font-weight:500;}
-.nav-icon{font-size:14px;width:16px;text-align:center;}
+
+/* ── MAIN ── */
+.main{
+  flex:1;
+  min-width:0;
+  padding:1.75rem 2rem;
+  overflow-y:auto;
+}
 
 .page-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:.2rem;}
 .page-sub{font-size:12px;color:var(--text2);margin-bottom:1.5rem;}
 
-.btn{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 14px;border-radius:var(--r-sm);cursor:pointer;font-weight:500;transition:all .15s;line-height:1;}
+/* ── BUTTONS ── */
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 13px;border-radius:var(--r-sm);cursor:pointer;font-weight:500;transition:all .15s;line-height:1;}
 .btn-primary{background:var(--accent);color:#fff;border:none;}
 .btn-primary:hover{background:var(--accent2);}
 .btn-secondary{background:transparent;color:var(--text2);border:1px solid var(--border);}
@@ -47,48 +69,73 @@ a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
 .btn-danger{background:transparent;color:var(--red);border:1px solid #e8c8c8;}
 .btn-danger:hover{background:var(--red-bg);}
 .btn-sm{font-size:11px;padding:4px 9px;}
-.btn-ai{background:linear-gradient(135deg,#2d5a8e,#4a3580);color:#fff;border:none;display:flex;align-items:center;gap:6px;}
-.btn-ai:hover{opacity:.9;}
+.btn-ai{background:linear-gradient(135deg,#2d5a8e,#4a3580);color:#fff;border:none;display:flex;align-items:center;gap:5px;}
+.btn-ai:hover{opacity:.88;}
 
-/* WHEEL */
+/* ── SCROLL WHEELS ── */
 .filter-bar{display:flex;gap:14px;align-items:flex-end;margin-bottom:1.5rem;flex-wrap:wrap;}
 .wheel-group{display:flex;flex-direction:column;gap:4px;}
 .wheel-lbl{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
-.wheel-outer{position:relative;height:108px;width:138px;overflow:hidden;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);cursor:ns-resize;user-select:none;}
-.wheel-outer.wide{width:185px;}
-.wheel-inner{position:absolute;width:100%;transition:transform .12s ease;}
-.wheel-item{height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);cursor:pointer;padding:0 6px;text-align:center;}
-.wheel-item.sel{color:var(--text);font-weight:500;background:var(--surface2);}
-.wf-top{position:absolute;top:0;left:0;right:0;height:36px;background:linear-gradient(to bottom,var(--surface) 20%,transparent);pointer-events:none;z-index:2;}
-.wf-bot{position:absolute;bottom:0;left:0;right:0;height:36px;background:linear-gradient(to top,var(--surface) 20%,transparent);pointer-events:none;z-index:2;}
-.wf-line{position:absolute;top:36px;left:0;right:0;height:36px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);pointer-events:none;z-index:1;}
+.wheel-outer{
+  position:relative;height:108px;width:136px;
+  overflow:hidden;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  background:var(--surface);
+  cursor:ns-resize;user-select:none;
+}
+.wheel-outer.wide{width:182px;}
+.wheel-inner{position:absolute;top:0;left:0;width:100%;}
+.wheel-item{
+  height:36px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--text2);cursor:pointer;
+  padding:0 6px;text-align:center;line-height:1.2;
+}
+.wheel-item.sel{
+  color:var(--text);font-weight:500;
+  background:var(--surface2);
+}
+.wheel-fade-t{
+  position:absolute;top:0;left:0;right:0;height:36px;
+  background:linear-gradient(to bottom,var(--surface) 30%,transparent);
+  pointer-events:none;z-index:2;
+}
+.wheel-fade-b{
+  position:absolute;bottom:0;left:0;right:0;height:36px;
+  background:linear-gradient(to top,var(--surface) 30%,transparent);
+  pointer-events:none;z-index:2;
+}
+.wheel-line{
+  position:absolute;top:36px;left:0;right:0;height:36px;
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+  pointer-events:none;z-index:1;
+}
 .filter-count{font-size:12px;color:var(--text3);align-self:flex-end;padding-bottom:10px;}
 
-/* CARDS */
-.pub-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.2rem;margin-bottom:9px;transition:border-color .15s;}
+/* ── PUB CARDS ── */
+.pub-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.15rem;margin-bottom:9px;transition:border-color .15s;}
 .pub-card:hover{border-color:var(--border2);}
 .pub-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px;}
-.pub-title{font-size:13.5px;font-weight:500;line-height:1.45;flex:1;color:var(--text);}
+.pub-title{font-size:13.5px;font-weight:500;line-height:1.45;flex:1;}
 .badges{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
 .badge{font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap;font-weight:500;}
 .b-25{background:#e6f4ee;color:var(--green);}
 .b-24{background:#e6eef8;color:var(--accent);}
 .b-23{background:var(--purple-bg);color:var(--purple);}
 .b-q1{background:var(--teal-bg);color:var(--teal);}
-.b-q2{background:var(--amber-bg);color:var(--amber);}
 .pub-meta{font-size:11.5px;color:var(--text2);margin-bottom:2px;}
 .pub-snip{font-size:11.5px;color:var(--text2);border-left:2px solid var(--border);padding-left:8px;margin-top:6px;line-height:1.55;}
-.pub-foot{display:flex;gap:12px;margin-top:7px;align-items:center;flex-wrap:wrap;}
+.pub-foot{display:flex;gap:10px;margin-top:7px;align-items:center;flex-wrap:wrap;}
 .pub-stat{font-size:11px;color:var(--text3);}
 .pub-stat strong{color:var(--text2);}
-.s-hdr{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin:1.2rem 0 .55rem;display:flex;align-items:center;gap:7px;}
-.sdot{width:8px;height:8px;border-radius:50%;}
+.s-hdr{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin:1.25rem 0 .55rem;display:flex;align-items:center;gap:7px;}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
-/* SCHOLAR CARDS */
-.sch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px;}
+/* ── SCHOLAR CARDS ── */
+.sch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px;}
 .sch-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;}
-.sch-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin-bottom:9px;letter-spacing:.02em;}
-.sch-name{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.sch-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin-bottom:9px;}
+.sch-name{font-size:13.5px;font-weight:500;margin-bottom:2px;}
 .sch-inst{font-size:11px;color:var(--text2);margin-bottom:6px;line-height:1.4;}
 .sch-row{display:flex;gap:12px;margin-bottom:8px;}
 .sch-stat{font-size:11px;color:var(--text3);}
@@ -100,69 +147,77 @@ a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
 .pill-core{background:var(--teal-bg);color:var(--teal);}
 .pill-rel{background:var(--purple-bg);color:var(--purple);}
 
-/* AI INSIGHT PANEL */
-.insight-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:10px;}
-.insight-header{display:flex;align-items:center;gap:10px;padding:.9rem 1.1rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f0f4fb,#f5f0ff);}
-.insight-header h3{font-size:13px;font-weight:500;color:var(--text);}
-.insight-header .sub{font-size:11px;color:var(--text3);margin-top:1px;}
-.insight-body{padding:1rem 1.2rem;}
-.insight-loading{display:flex;align-items:center;gap:10px;padding:1rem 1.2rem;color:var(--text2);font-size:13px;}
-.dot-pulse{display:flex;gap:4px;}
-.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dp 1.2s infinite;}
-.dot-pulse span:nth-child(2){animation-delay:.2s;}
-.dot-pulse span:nth-child(3){animation-delay:.4s;}
-@keyframes dp{0%,80%,100%{opacity:.2}40%{opacity:1}}
-.insight-text{font-size:13px;line-height:1.75;color:var(--text);}
-.insight-text h4{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:1rem 0 .35rem;}
+/* ── AI INSIGHT ── */
+.insight-wrap{margin-top:10px;}
+.insight-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.insight-hdr{display:flex;align-items:center;gap:10px;padding:.85rem 1rem;border-bottom:1px solid var(--border);background:#f5f3ff;}
+.insight-hdr h3{font-size:13px;font-weight:500;}
+.insight-hdr .sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.insight-body{padding:.95rem 1.1rem;}
+.insight-loading{display:flex;align-items:center;gap:10px;padding:.9rem 1.1rem;font-size:13px;color:var(--text2);}
+.pulse{display:flex;gap:4px;}
+.pulse span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pu 1.2s infinite;}
+.pulse span:nth-child(2){animation-delay:.2s;}
+.pulse span:nth-child(3){animation-delay:.4s;}
+@keyframes pu{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.insight-text{font-size:13px;line-height:1.75;}
+.insight-text h4{font-size:11.5px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:1rem 0 .3rem;}
 .insight-text h4:first-child{margin-top:0;}
-.insight-text p{margin-bottom:.5rem;}
-.insight-text ul{padding-left:1.2rem;margin-bottom:.5rem;}
-.insight-text li{margin-bottom:.25rem;}
-.insight-error{font-size:13px;color:var(--red);padding:.5rem;}
+.insight-text p{margin-bottom:.45rem;}
+.insight-text ul{padding-left:1.2rem;margin-bottom:.45rem;}
+.insight-text li{margin-bottom:.2rem;}
+.insight-err{font-size:13px;color:var(--red);padding:.5rem;line-height:1.5;}
 
-/* JOURNAL */
-.jrnl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.2rem;margin-bottom:9px;}
+/* ── JOURNALS ── */
+.jrnl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.15rem;margin-bottom:9px;}
 .jrnl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px;}
 .jrnl-name{font-size:14px;font-weight:500;}
 .jrnl-pub{font-size:11px;color:var(--text3);margin-bottom:7px;}
-.metrics{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px;}
+.metrics{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
 .metric{font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text2);}
 .metric strong{color:var(--text);}
 .jrnl-note{font-size:12px;color:var(--text2);line-height:1.5;}
 
-/* FORMS */
+/* ── FORMS ── */
 .add-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin-bottom:1.25rem;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
-.form-grid.three{grid-template-columns:1fr 1fr 1fr;}
-.form-grid.full{grid-template-columns:1fr;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
+.fg.three{grid-template-columns:1fr 1fr 1fr;}
+.fg.full{grid-template-columns:1fr;}
 .field{display:flex;flex-direction:column;gap:4px;}
 .field label{font-size:10px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
-.field input,.field select,.field textarea{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;}
+.field input,.field select,.field textarea{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;width:100%;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
 .field textarea{resize:vertical;min-height:65px;}
+.legend{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.6rem .9rem;margin-bottom:1.1rem;font-size:12px;color:var(--text2);line-height:1.7;}
+.legend strong{color:var(--text);}
 .color-swatch{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
 .swatch{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
 .swatch.sel{border-color:#333;}
-.legend{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.65rem .9rem;margin-bottom:1.1rem;font-size:12px;color:var(--text2);line-height:1.7;}
-.legend strong{color:var(--text);}
 .empty-state{text-align:center;padding:3rem;color:var(--text3);font-size:13px;}
 
-/* SHARE MODAL */
+/* ── MODAL ── */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;align-items:center;justify-content:center;}
 .modal-bg.open{display:flex;}
 .modal{background:var(--surface);border-radius:var(--r);padding:1.75rem;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;}
 .modal-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:1rem;}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;}
-.share-url{width:100%;font-family:monospace;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);margin-top:8px;word-break:break-all;}
 .step{display:flex;gap:10px;margin-bottom:1rem;align-items:flex-start;}
 .step-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-text{font-size:13px;color:var(--text);line-height:1.6;}
-.step-text strong{font-weight:500;}
 
+/* ── TOAST ── */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--text);color:#fff;padding:.7rem 1.1rem;border-radius:var(--r-sm);font-size:13px;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;}
 .toast.show{opacity:1;}
 
-@media(max-width:680px){.sidebar{display:none;}.main{padding:1rem;}.form-grid,.form-grid.three{grid-template-columns:1fr;}}
+/* ── API KEY BANNER ── */
+.api-banner{background:var(--amber-bg);border:1px solid #e8d5a0;border-radius:var(--r-sm);padding:.75rem 1rem;margin-bottom:1.25rem;font-size:12px;color:var(--amber);display:flex;align-items:flex-start;gap:8px;line-height:1.6;}
+.api-banner strong{font-weight:500;}
+
+@media(max-width:680px){
+  .sidebar{display:none;}
+  .main{padding:1rem;}
+  .fg,.fg.three{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -180,13 +235,15 @@ a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
 <div class="app">
   <nav class="sidebar">
     <div class="nav-label">Browse</div>
-    <div class="nav-item active" onclick="showPage('publications',this)"><span class="nav-icon">📄</span>Publications</div>
-    <div class="nav-item" onclick="showPage('scholars',this)"><span class="nav-icon">👤</span>Scholars</div>
-    <div class="nav-item" onclick="showPage('journals',this)"><span class="nav-icon">📚</span>Journals</div>
-    <div class="nav-label" style="margin-top:1rem;">Manage</div>
-    <div class="nav-item" onclick="showPage('add-pub',this)"><span class="nav-icon">＋</span>Add Publication</div>
-    <div class="nav-item" onclick="showPage('add-scholar',this)"><span class="nav-icon">＋</span>Add Scholar</div>
-    <div class="nav-item" onclick="showPage('add-journal',this)"><span class="nav-icon">＋</span>Add Journal</div>
+    <div class="nav-item active" onclick="showPage('publications',this)">📄 Publications</div>
+    <div class="nav-item" onclick="showPage('scholars',this)">👤 Scholars</div>
+    <div class="nav-item" onclick="showPage('journals',this)">📚 Journals</div>
+    <div class="nav-label">Manage</div>
+    <div class="nav-item" onclick="showPage('add-pub',this)">＋ Add Publication</div>
+    <div class="nav-item" onclick="showPage('add-scholar',this)">＋ Add Scholar</div>
+    <div class="nav-item" onclick="showPage('add-journal',this)">＋ Add Journal</div>
+    <div class="nav-label">Settings</div>
+    <div class="nav-item" onclick="showPage('settings',this)">⚙ API Settings</div>
   </nav>
   <main class="main" id="main-content"></main>
 </div>
@@ -196,30 +253,11 @@ a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
 <div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-title">🔗 Share this tracker</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem;">The easiest way to share is via a free hosting service. Your data stays in the file — just re-upload whenever you add new entries.</p>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text"><strong>Export your data</strong> — click Export above to download <code>linguatrack-data.json</code>. This keeps all your additions safe.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text"><strong>Host for free on Netlify Drop</strong> — go to <a href="https://app.netlify.com/drop" target="_blank">app.netlify.com/drop</a>, then drag and drop this HTML file. You'll get a permanent URL instantly (no account needed).</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><strong>Or use GitHub Pages</strong> — upload the HTML file to a GitHub repo, enable Pages in Settings → Pages. Free permanent URL at <code>username.github.io/repo-name</code>.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text"><strong>Share the URL</strong> with your wife. She can use the Import button to load the JSON data file, and Export to save any additions she makes.</div>
-    </div>
-
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.9rem;margin-top:.5rem;">
-      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;">Pro tip</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.6;">Both of you can keep a local copy of the JSON file and use Import/Export to sync. Think of it like a shared Google Doc but fully offline and private.</div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="exportData();closeModal()">Export now</button></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem;">This app is hosted on Vercel. Share the URL directly — it works in any browser.</p>
+    <div class="step"><div class="step-num">1</div><div class="step-text">Copy your Vercel URL from the address bar and send it to her directly.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Data sync:</strong> Use Export to save a JSON file, send it to each other, and Import to load it. This keeps both copies in sync.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>To update the site:</strong> Re-upload <code>index.html</code> to GitHub — Vercel auto-deploys within 30 seconds.</div></div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="exportData();closeModal()">Export data now</button></div>
   </div>
 </div>
 
@@ -232,13 +270,13 @@ let db={
     {id:'dai',name:'David Wei Dai',inst:'UCL, UK',dept:'IOE — Professional Communication',avIdx:0,hindex:12,citations:436,gs:'https://scholar.google.com/citations?user=7rJUwkEAAAAJ',tags:['Interactional competence','IC assessment','Human-AI interaction','Intercultural comm.'],type:'core',note:'AAAL Dissertation Award'},
     {id:'zhu',name:'Zhu Hua',inst:'UCL, UK',dept:'IOE — Language Learning & Intercultural Comm.',avIdx:1,hindex:38,citations:8717,gs:'https://scholar.google.com/citations?user=FfsVMsIAAAAJ',tags:['Intercultural communication','Multilingualism','AI & language','Translanguaging'],type:'core',note:'Fellow, Academy of Social Sciences'},
     {id:'vahid',name:'Vahid Aryadoust',inst:'NIE, NTU Singapore',dept:'English Language & Literature',avIdx:2,hindex:28,citations:3530,gs:'https://scholar.google.com/citations?user=qlxy_-kAAAAJ',tags:['Language assessment','AI/ML in testing','Eye-tracking','Rasch/IRT'],type:'core',note:'ILTA Best Article Award 2024'},
-    {id:'leung',name:'Constant Leung',inst:"King's College London, UK",dept:'Education',avIdx:3,hindex:24,citations:3200,gs:'https://scholar.google.com/',tags:['Formative assessment','Language pedagogy','EAL','Dynamic assessment'],type:'related',note:''},
-    {id:'fulcher',name:'Glenn Fulcher',inst:'Univ. of Leicester, UK',dept:'Applied Linguistics',avIdx:4,hindex:22,citations:2800,gs:'https://scholar.google.com/',tags:['Language testing','Oral assessment','Validity','Test design'],type:'related',note:''},
-    {id:'mcnamara',name:'Tim McNamara',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:5,hindex:30,citations:6100,gs:'https://scholar.google.com/',tags:['Language testing','Social dimensions','Discourse','Performance testing'],type:'related',note:''},
-    {id:'galaczi',name:'Elaine Galaczi',inst:'Cambridge Univ. Press & Assessment, UK',dept:'Research Division',avIdx:0,hindex:18,citations:1400,gs:'https://scholar.google.com/',tags:['Interactional competence','Speaking assessment','GenAI & education'],type:'related',note:''},
-    {id:'youn',name:'Soo Jung Youn',inst:'Northern Arizona Univ., USA',dept:'Applied Linguistics',avIdx:1,hindex:14,citations:900,gs:'https://scholar.google.com/',tags:['Pragmatics assessment','IC in interaction','Task-based assessment'],type:'related',note:''},
+    {id:'leung',name:'Constant Leung',inst:"King's College London, UK",dept:'Education',avIdx:3,hindex:24,citations:3200,gs:'https://scholar.google.com/',tags:['Formative assessment','Language pedagogy','EAL'],type:'related',note:''},
+    {id:'fulcher',name:'Glenn Fulcher',inst:'Univ. of Leicester, UK',dept:'Applied Linguistics',avIdx:4,hindex:22,citations:2800,gs:'https://scholar.google.com/',tags:['Language testing','Oral assessment','Validity'],type:'related',note:''},
+    {id:'mcnamara',name:'Tim McNamara',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:5,hindex:30,citations:6100,gs:'https://scholar.google.com/',tags:['Language testing','Social dimensions','Discourse'],type:'related',note:''},
+    {id:'galaczi',name:'Elaine Galaczi',inst:'Cambridge Univ. Press & Assessment, UK',dept:'Research Division',avIdx:0,hindex:18,citations:1400,gs:'https://scholar.google.com/',tags:['Interactional competence','Speaking assessment','GenAI'],type:'related',note:''},
+    {id:'youn',name:'Soo Jung Youn',inst:'Northern Arizona Univ., USA',dept:'Applied Linguistics',avIdx:1,hindex:14,citations:900,gs:'https://scholar.google.com/',tags:['Pragmatics assessment','IC in interaction','Task-based'],type:'related',note:''},
     {id:'roever',name:'Carsten Roever',inst:'Univ. of Melbourne, AU',dept:'Applied Linguistics',avIdx:2,hindex:19,citations:1900,gs:'https://scholar.google.com/',tags:['Pragmatics testing','IC & proficiency','SLA'],type:'related',note:''},
-    {id:'jang',name:'Eunice Eunhee Jang',inst:'Univ. of Toronto, CA',dept:'Applied Psychology & Human Development',avIdx:6,hindex:22,citations:2200,gs:'https://scholar.google.com/',tags:['AI in assessment','Diagnostic assessment','NLP'],type:'related',note:'Language Testing 2025 paper'},
+    {id:'jang',name:'Eunice Eunhee Jang',inst:'Univ. of Toronto, CA',dept:'Applied Psychology & Human Development',avIdx:6,hindex:22,citations:2200,gs:'https://scholar.google.com/',tags:['AI in assessment','Diagnostic assessment','NLP'],type:'related',note:'Language Testing 2025'},
   ],
   publications:[
     {id:'p1',scholarId:'dai',year:'2025',title:'Generative AI for professional communication training in intercultural contexts',journal:'Applied Linguistics Review',if:'4.10',q:'Q1',cite:'~12',url:'https://doi.org/10.1515/applirev-2024-0186',authors:'Dai, D.W., Suzuki, S. & Chen, G.',snip:'Examines how GenAI can be leveraged for professional communication training; addresses cultural stereotyping risks in LLMs.'},
@@ -262,7 +300,7 @@ let db={
   ],
   journals:[
     {id:'j1',name:'Applied Linguistics',pub:'Oxford University Press',url:'https://academic.oup.com/applij',if:'4.61',sjr:'1.763',cs:'8.2',q:'Q1',hi:132,note:'Flagship journal. Core outlet for Dai & Zhu Hua. Highest prestige in the field.'},
-    {id:'j2',name:'Applied Linguistics Review',pub:'De Gruyter',url:'https://www.degruyter.com/journal/key/applirev/html',if:'4.10',sjr:'1.188',cs:'5.9',q:'Q1',hi:37,note:'Open access. Special issue co-edited by Dai & Zhu Hua (2025). Rapidly rising impact.'},
+    {id:'j2',name:'Applied Linguistics Review',pub:'De Gruyter',url:'https://www.degruyter.com/journal/key/applirev/html',if:'4.10',sjr:'1.188',cs:'5.9',q:'Q1',hi:37,note:'Open access. Special issue co-edited by Dai & Zhu Hua (2025).'},
     {id:'j3',name:'Research Methods in Applied Linguistics',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/research-methods-in-applied-linguistics',if:'12.45',sjr:'2.452',cs:'—',q:'Q1',hi:14,note:'Highest IF in the entire field. Methodologically focused, growing fast.'},
     {id:'j4',name:'Annual Review of Applied Linguistics',pub:'Cambridge University Press',url:'https://www.cambridge.org/core/journals/annual-review-of-applied-linguistics',if:'5.2',sjr:'2.1',cs:'9.4',q:'Q1',hi:68,note:'Review-focused. Galaczi et al. 2025 AI & communicative competence paper here.'},
     {id:'j5',name:'Language Testing',pub:'SAGE',url:'https://journals.sagepub.com/home/ltj',if:'4.2',sjr:'1.5',cs:'5.7',q:'Q1',hi:76,note:'Primary outlet for Aryadoust. ILTA Best Article winners published here since 1984.'},
@@ -270,70 +308,104 @@ let db={
     {id:'j7',name:'Language Teaching Research',pub:'SAGE',url:'https://journals.sagepub.com/home/ltr',if:'3.8',sjr:'1.1',cs:'6.4',q:'Q1',hi:62,note:'Pedagogically oriented. Frequent outlet for Dai\'s IC work.'},
     {id:'j8',name:'Language, Culture and Curriculum',pub:'Taylor & Francis',url:'https://www.tandfonline.com/journals/rlcc20',if:'2.8',sjr:'0.9',cs:'4.1',q:'Q1',hi:35,note:'Cross-disciplinary. Dai 2024 PCIC framework paper published here.'},
     {id:'j9',name:'Studies in Educational Evaluation',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/studies-in-educational-evaluation',if:'3.1',sjr:'1.0',cs:'5.0',q:'Q1',hi:55,note:'Key journal for Aryadoust\'s neuroimaging and DIF studies.'},
-    {id:'j10',name:'Medical Education',pub:'Wiley',url:'https://asmepublications.onlinelibrary.wiley.com/journal/13652923',if:'6.0',sjr:'2.2',cs:'9.8',q:'Q1',hi:120,note:'High-IF interdisciplinary journal. Dai\'s health communication and validity work appears here.'},
+    {id:'j10',name:'Medical Education',pub:'Wiley',url:'https://asmepublications.onlinelibrary.wiley.com/journal/13652923',if:'6.0',sjr:'2.2',cs:'9.8',q:'Q1',hi:120,note:'High-IF. Dai\'s health communication and validity work appears here.'},
     {id:'j11',name:'Journal of English for Academic Purposes',pub:'Elsevier',url:'https://www.sciencedirect.com/journal/journal-of-english-for-academic-purposes',if:'3.5',sjr:'1.2',cs:'6.1',q:'Q1',hi:72,note:'Covers EAP including oral and interactive communication tasks.'},
     {id:'j12',name:'Studies in Second Language Learning and Teaching',pub:'Adam Mickiewicz Univ.',url:'https://pressto.amu.edu.pl/index.php/ssllt',if:'2.8',sjr:'0.9',cs:'4.5',q:'Q1',hi:28,note:'Open access. Aryadoust 2025 citation analysis paper published here.'},
   ]
 };
 
-let selYear=0,selScholar=0;
+let selYear=0, selScholar=0, pickedAv=0;
 const yearOpts=['All years','2025','2024','2023'];
 const insightCache={};
-let pickedAv=0;
 
-function getScholarOpts(){
-  const core=db.scholars.filter(s=>s.type==='core').map(s=>s.name);
-  return['All scholars',...core,'Related scholars'];
-}
+function getScholarOpts(){return['All scholars',...db.scholars.filter(s=>s.type==='core').map(s=>s.name),'Related scholars'];}
 function av(s){const a=AVATARS[s.avIdx%AVATARS.length];return`background:${a.bg};color:${a.fg};`;}
 function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
 function dot(s){return S_DOTS[s.avIdx%S_DOTS.length];}
 function badgeY(y){return y==='2025'?'b-25':y==='2024'?'b-24':'b-23';}
 function uid(){return 's_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);}
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function openShareModal(){document.getElementById('modal-bg').classList.add('open');}
 function closeModal(){document.getElementById('modal-bg').classList.remove('open');}
-function saveLocal(){try{localStorage.setItem('lt_db',JSON.stringify(db));}catch(e){}}
-function loadLocal(){try{const s=localStorage.getItem('lt_db');if(s){const p=JSON.parse(s);if(p.scholars&&p.publications&&p.journals)db=p;}}catch(e){}}
+function saveLocal(){try{localStorage.setItem('lt_db2',JSON.stringify(db));}catch(e){}}
+function loadLocal(){try{const s=localStorage.getItem('lt_db2');if(s){const p=JSON.parse(s);if(p.scholars&&p.publications&&p.journals)db=p;}}catch(e){}}
 
 function showPage(page,navEl){
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
   if(navEl)navEl.classList.add('active');
   const main=document.getElementById('main-content');
-  if(page==='publications')renderPublications(main);
-  else if(page==='scholars')renderScholars(main);
-  else if(page==='journals')renderJournals(main);
-  else if(page==='add-pub')renderAddPub(main);
-  else if(page==='add-scholar')renderAddScholar(main);
-  else if(page==='add-journal')renderAddJournal(main);
+  ({publications:renderPublications,scholars:renderScholars,journals:renderJournals,'add-pub':renderAddPub,'add-scholar':renderAddScholar,'add-journal':renderAddJournal,settings:renderSettings})[page]?.(main);
 }
 
-function makeWheel(cId,iId,opts,sel,onChange){
-  const c=document.getElementById(cId),inner=document.getElementById(iId);
-  const H=36;let cur=sel;
-  function render(){inner.innerHTML=opts.map((o,i)=>`<div class="wheel-item${i===cur?' sel':''}" data-i="${i}">${o}</div>`).join('');inner.style.transform=`translateY(${(1-cur)*H}px)`;}
-  function setIdx(i){i=Math.max(0,Math.min(opts.length-1,Math.round(i)));if(i===cur)return;cur=i;render();onChange(i);}
-  inner.addEventListener('click',e=>{const el=e.target.closest('.wheel-item');if(el)setIdx(+el.dataset.i);});
-  let sy=0,si=0,drag=false;
-  c.addEventListener('mousedown',e=>{drag=true;sy=e.clientY;si=cur;e.preventDefault();});
-  window.addEventListener('mousemove',e=>{if(!drag)return;setIdx(si+(sy-e.clientY)/H);});
-  window.addEventListener('mouseup',()=>{drag=false;});
-  c.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;si=cur;},{passive:true});
-  c.addEventListener('touchmove',e=>{setIdx(si+(sy-e.touches[0].clientY)/H);e.preventDefault();},{passive:false});
-  c.addEventListener('wheel',e=>{setIdx(cur+(e.deltaY>0?1:-1));e.preventDefault();},{passive:false});
+/* ── WHEEL ── */
+function makeWheel(cId,iId,opts,initSel,onChange){
+  const container=document.getElementById(cId);
+  const inner=document.getElementById(iId);
+  const H=36;
+  let cur=Math.max(0,Math.min(opts.length-1,initSel));
+
+  function render(){
+    inner.innerHTML='';
+    inner.style.transition='none';
+    opts.forEach((o,i)=>{
+      const div=document.createElement('div');
+      div.className='wheel-item'+(i===cur?' sel':'');
+      div.textContent=o;
+      div.dataset.i=i;
+      inner.appendChild(div);
+    });
+    inner.style.transform=`translateY(${(1-cur)*H}px)`;
+  }
+
+  function setIdx(i,animate){
+    i=Math.max(0,Math.min(opts.length-1,Math.round(i)));
+    if(i===cur)return;
+    cur=i;
+    inner.style.transition=animate?'transform .12s ease':'none';
+    inner.style.transform=`translateY(${(1-cur)*H}px)`;
+    inner.querySelectorAll('.wheel-item').forEach((el,idx)=>el.classList.toggle('sel',idx===cur));
+    onChange(cur);
+  }
+
+  inner.addEventListener('click',e=>{
+    const el=e.target.closest('.wheel-item');
+    if(el)setIdx(+el.dataset.i,true);
+  });
+
+  let sy=0,si=0,drag=false,moved=false;
+  container.addEventListener('mousedown',e=>{drag=true;moved=false;sy=e.clientY;si=cur;e.preventDefault();});
+  window.addEventListener('mousemove',e=>{if(!drag)return;moved=true;const dy=(sy-e.clientY)/H;inner.style.transition='none';inner.style.transform=`translateY(${(1-si-dy)*H}px)`;});
+  window.addEventListener('mouseup',e=>{if(!drag)return;drag=false;if(moved){const dy=Math.round((sy-e.clientY)/H);setIdx(si+dy,true);}});
+  container.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;si=cur;moved=false;},{passive:true});
+  container.addEventListener('touchmove',e=>{moved=true;const dy=(sy-e.touches[0].clientY)/H;inner.style.transition='none';inner.style.transform=`translateY(${(1-si-dy)*H}px)`;e.preventDefault();},{passive:false});
+  container.addEventListener('touchend',e=>{if(moved){const dy=Math.round((sy-e.changedTouches[0].clientY)/H);setIdx(si+dy,true);}});
+  container.addEventListener('wheel',e=>{setIdx(cur+(e.deltaY>0?1:-1),true);e.preventDefault();},{passive:false});
+
   render();
+  return {update:(newOpts,newSel=0)=>{opts=newOpts;cur=Math.max(0,Math.min(opts.length-1,newSel));render();}};
 }
 
+/* ── PUBLICATIONS ── */
 function renderPublications(main){
   const sOpts=getScholarOpts();
   main.innerHTML=`
     <div class="page-title">Publications</div>
-    <div class="page-sub">Scroll wheels to filter · click a title to open the paper</div>
+    <div class="page-sub">Scroll or drag the wheels to filter · click a title to open the paper</div>
     <div class="filter-bar">
-      <div class="wheel-group"><div class="wheel-lbl">Year</div>
-        <div class="wheel-outer" id="wY"><div class="wf-top"></div><div class="wf-line"></div><div class="wf-bot"></div><div class="wheel-inner" id="wYI"></div></div></div>
-      <div class="wheel-group"><div class="wheel-lbl">Scholar</div>
-        <div class="wheel-outer wide" id="wS"><div class="wf-top"></div><div class="wf-line"></div><div class="wf-bot"></div><div class="wheel-inner" id="wSI"></div></div></div>
+      <div class="wheel-group">
+        <div class="wheel-lbl">Year</div>
+        <div class="wheel-outer" id="wY">
+          <div class="wheel-fade-t"></div><div class="wheel-line"></div><div class="wheel-fade-b"></div>
+          <div class="wheel-inner" id="wYI"></div>
+        </div>
+      </div>
+      <div class="wheel-group">
+        <div class="wheel-lbl">Scholar</div>
+        <div class="wheel-outer wide" id="wS">
+          <div class="wheel-fade-t"></div><div class="wheel-line"></div><div class="wheel-fade-b"></div>
+          <div class="wheel-inner" id="wSI"></div>
+        </div>
+      </div>
       <div class="filter-count" id="fCount"></div>
     </div>
     <div id="pubResults"></div>`;
@@ -349,16 +421,17 @@ function updatePubs(){
   let filtered=db.publications.filter(p=>{
     const yOk=yv==='All years'||p.year===yv;
     let sOk=true;
-    if(sv==='Related scholars'){sOk=p.scholarId==='other'||!db.scholars.find(s=>s.id===p.scholarId&&s.type==='core');}
+    if(sv==='Related scholars')sOk=p.scholarId==='other'||!db.scholars.find(s=>s.id===p.scholarId&&s.type==='core');
     else if(sv!=='All scholars'){const sc=db.scholars.find(s=>s.name===sv);sOk=sc?p.scholarId===sc.id:false;}
     return yOk&&sOk;
   });
-  document.getElementById('fCount').textContent=`${filtered.length} publication${filtered.length!==1?'s':''}`;
+  const el=document.getElementById('fCount');
+  if(el)el.textContent=`${filtered.length} publication${filtered.length!==1?'s':''}`;
   const groups={};
   filtered.forEach(p=>{(groups[p.scholarId]||(groups[p.scholarId]=[])).push(p);});
   const order=['dai','zhu','vahid',...Object.keys(groups).filter(k=>!['dai','zhu','vahid'].includes(k))];
   let html='';
-  if(!filtered.length){html=`<div class="empty-state">No publications match this filter.</div>`;}
+  if(!filtered.length)html=`<div class="empty-state">No publications match this filter.</div>`;
   order.forEach(sid=>{
     if(!groups[sid])return;
     const sc=db.scholars.find(s=>s.id===sid);
@@ -384,14 +457,17 @@ function updatePubs(){
       </div>`;
     });
   });
-  document.getElementById('pubResults').innerHTML=html;
+  const res=document.getElementById('pubResults');
+  if(res)res.innerHTML=html;
 }
 
-/* ── SCHOLARS + AI INSIGHT ── */
+/* ── SCHOLARS ── */
 function renderScholars(main){
   const core=db.scholars.filter(s=>s.type==='core');
   const rel=db.scholars.filter(s=>s.type==='related');
-  let html=`<div class="page-title">Scholars</div><div class="page-sub">Click "Research Insights" to get an AI summary of a scholar's latest research focus</div>`;
+  let html=`<div class="page-title">Scholars</div>
+  <div class="page-sub">Click "✦ Research Insights" for an AI summary of a scholar's current research focus</div>`;
+  if(!hasApiKey()){html+=`<div class="api-banner">⚠️ <div><strong>AI Insights not configured.</strong> Go to <span style="cursor:pointer;text-decoration:underline;" onclick="showPage('settings',document.querySelector('.nav-item:last-child'))">Settings</span> to add your Anthropic API key and enable this feature.</div></div>`;}
   html+=`<div class="s-hdr"><span class="sdot" style="background:#1D9E75"></span>Core scholars</div><div class="sch-grid">`;
   core.forEach(s=>{html+=scholarCard(s);});
   html+=`</div><div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#7F77DD"></span>Related scholars</div><div class="sch-grid">`;
@@ -422,91 +498,112 @@ function scholarCard(s){
       <button class="btn btn-secondary btn-sm" onclick="editScholar('${s.id}')">Edit</button>
       <button class="btn btn-danger btn-sm" onclick="deleteScholar('${s.id}')">Delete</button>
     </div>
-    <div id="insight-${s.id}"></div>
+    <div class="insight-wrap" id="insight-${s.id}"></div>
   </div>`;
 }
 
+function hasApiKey(){return !!localStorage.getItem('lt_apikey');}
+function getApiKey(){return localStorage.getItem('lt_apikey')||'';}
+
 function toggleInsight(sid){
   const el=document.getElementById(`insight-${sid}`);
+  if(!el)return;
   if(el.dataset.open==='1'){el.innerHTML='';el.dataset.open='0';return;}
   el.dataset.open='1';
   if(insightCache[sid]){el.innerHTML=insightCache[sid];return;}
+  if(!hasApiKey()){
+    el.innerHTML=`<div class="insight-panel"><div class="insight-body"><div class="insight-err">Please add your Anthropic API key in <strong>Settings</strong> to use this feature.</div></div></div>`;
+    return;
+  }
   generateInsight(sid,el);
 }
 
 async function generateInsight(sid,el){
   const sc=db.scholars.find(s=>s.id===sid);
-  if(!sc){return;}
+  if(!sc)return;
   const pubs=db.publications.filter(p=>p.scholarId===sid);
   const pubList=pubs.map(p=>`- "${p.title}" (${p.year}), ${p.journal}. ${p.snip||''}`).join('\n');
-
-  el.innerHTML=`<div class="insight-panel"><div class="insight-header">
-    <div style="font-size:18px;">✦</div>
-    <div><div class="sub">AI Research Insight</div><h3>${sc.name} — Research Focus & Trends</h3></div>
-  </div>
-  <div class="insight-loading"><div class="dot-pulse"><span></span><span></span><span></span></div>Analysing publications...</div></div>`;
-
-  const prompt=`You are an academic research analyst specialising in applied linguistics.
-
-Scholar: ${sc.name} (${sc.inst}, ${sc.dept})
-Research tags: ${sc.tags.join(', ')}
-h-index: ${sc.hindex}, Citations: ${sc.citations}
-
-Tracked publications:
-${pubList||'No specific publications tracked yet — use the scholar profile and their Google Scholar page.'}
-
-Based on the above, write a concise academic analysis (in English, ~250 words) covering:
-
-### Current Research Focus
-What is this scholar currently most focused on? What are their 2–3 core research themes?
-
-### Recent Trends & Trajectory
-How has their work evolved recently (2023–2025)? What new directions are they pursuing?
-
-### Key Contributions
-What are their most impactful contributions to the field?
-
-### What to Watch
-What upcoming topics or research questions seem likely based on their trajectory?
-
-Be specific, analytical, and useful for a PhD researcher tracking this scholar's work. Avoid generic statements.`;
-
+  el.innerHTML=`<div class="insight-panel">
+    <div class="insight-hdr"><div style="font-size:18px;">✦</div><div><div class="sub">AI Research Insight — generating...</div><h3>${sc.name}</h3></div></div>
+    <div class="insight-loading"><div class="pulse"><span></span><span></span><span></span></div>Analysing publications...</div>
+  </div>`;
+  const prompt=`You are an academic research analyst specialising in applied linguistics.\n\nScholar: ${sc.name} (${sc.inst}, ${sc.dept})\nResearch areas: ${sc.tags.join(', ')}\nh-index: ${sc.hindex}, Total citations: ${sc.citations}\n\nTracked publications:\n${pubList||'No publications tracked yet.'}\n\nWrite a concise academic analysis (~250 words) with these sections:\n\n### Current Research Focus\nWhat are this scholar's 2–3 core research themes right now?\n\n### Recent Trends & Trajectory\nHow has their work evolved in 2023–2025? What new directions are emerging?\n\n### Key Contributions\nWhat are their most impactful contributions to the field?\n\n### What to Watch\nWhat topics seem likely based on their current trajectory?\n\nBe specific and analytical. Avoid generic statements.`;
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('/api/insight',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
+        apiKey:getApiKey(),
         messages:[{role:'user',content:prompt}]
       })
     });
     const data=await resp.json();
+    if(data.error)throw new Error(data.error);
     let text='';
     if(data.content)data.content.forEach(b=>{if(b.type==='text')text+=b.text;});
-    if(!text)throw new Error('No response');
-
-    // convert markdown to HTML
+    if(!text)throw new Error('Empty response');
     text=text
       .replace(/### (.+)/g,'<h4>$1</h4>')
       .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
       .replace(/^- (.+)/gm,'<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/gs,m=>`<ul>${m}</ul>`)
-      .split('\n\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('');
-
-    const html=`<div class="insight-panel"><div class="insight-header">
-      <div style="font-size:18px;">✦</div>
-      <div><div class="sub">AI Research Insight · Generated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
-      <h3>${sc.name} — Research Focus & Trends</h3></div>
-    </div>
-    <div class="insight-body"><div class="insight-text">${text}</div></div></div>`;
+      .replace(/(<li>[^]*?<\/li>(\n<li>[^]*?<\/li>)*)/g,m=>`<ul>${m}</ul>`)
+      .split('\n\n').map(p=>p.trim()).filter(Boolean).map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('');
+    const html=`<div class="insight-panel">
+      <div class="insight-hdr"><div style="font-size:18px;">✦</div>
+      <div><div class="sub">AI Research Insight · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      <h3>${sc.name} — Research Focus & Trends</h3></div></div>
+      <div class="insight-body"><div class="insight-text">${text}</div></div>
+    </div>`;
     el.innerHTML=html;
     insightCache[sid]=html;
   }catch(err){
-    el.innerHTML=`<div class="insight-panel"><div class="insight-body"><div class="insight-error">Could not generate insight. Make sure you are using this tool within Claude.ai, where the API is available. Error: ${err.message}</div></div></div>`;
+    el.innerHTML=`<div class="insight-panel"><div class="insight-body"><div class="insight-err">Error: ${err.message}<br><br>Make sure your API key is correct in Settings.</div></div></div>`;
   }
 }
 
+/* ── SETTINGS ── */
+function renderSettings(main){
+  const current=getApiKey();
+  main.innerHTML=`<div class="page-title">API Settings</div>
+  <div class="page-sub">Configure your Anthropic API key to enable AI Research Insights</div>
+  <div class="add-section">
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem;">
+      The AI Research Insights feature calls the Anthropic API via a secure Vercel backend function.
+      Your API key is stored only in your browser (localStorage) and sent only to your own Vercel backend.<br><br>
+      Get a free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+    </div>
+    <div class="fg full">
+      <div class="field">
+        <label>Anthropic API Key</label>
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-..." value="${current}">
+      </div>
+    </div>
+    <div style="margin-top:.75rem;display:flex;gap:8px;">
+      <button class="btn btn-primary" onclick="saveApiKey()">Save Key</button>
+      ${current?`<button class="btn btn-danger" onclick="clearApiKey()">Clear Key</button>`:''}
+    </div>
+  </div>
+  <div class="legend">
+    <strong>Note:</strong> You also need to add <code>ANTHROPIC_API_KEY</code> as an Environment Variable in your Vercel project settings
+    (Vercel Dashboard → Your Project → Settings → Environment Variables).
+    This is the same key — paste it there too. Then redeploy.
+  </div>`;
+}
+
+function saveApiKey(){
+  const val=document.getElementById('apiKeyInput').value.trim();
+  if(!val){showToast('Please enter an API key.');return;}
+  localStorage.setItem('lt_apikey',val);
+  showToast('API key saved!');
+  renderSettings(document.getElementById('main-content'));
+}
+function clearApiKey(){
+  localStorage.removeItem('lt_apikey');
+  showToast('API key cleared.');
+  renderSettings(document.getElementById('main-content'));
+}
+
+/* ── JOURNALS ── */
 function renderJournals(main){
   main.innerHTML=`<div class="page-title">Journals & Rankings</div>
   <div class="page-sub">Key publication outlets with impact metrics (2024)</div>
@@ -529,193 +626,139 @@ function renderJournals(main){
     </div>`).join('')}</div>`;
 }
 
+/* ── ADD FORMS ── */
 function renderAddPub(main){
   const opts=db.scholars.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   main.innerHTML=`<div class="page-title">Add Publication</div><div class="page-sub">Track a new paper or book chapter</div>
   <div class="add-section">
-    <div class="form-grid full"><div class="field"><label>Title *</label><input id="f-title" placeholder="Full paper title"></div></div>
-    <div class="form-grid">
-      <div class="field"><label>Scholar</label><select id="f-scholar"><option value="other">Other / Related</option>${opts}</select></div>
-      <div class="field"><label>Year *</label><input id="f-year" placeholder="e.g. 2025" maxlength="4"></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Journal / Venue *</label><input id="f-journal" placeholder="e.g. Applied Linguistics"></div>
-      <div class="field"><label>Authors</label><input id="f-authors" placeholder="e.g. Dai, D.W. & Smith, J."></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Impact Factor</label><input id="f-if" placeholder="e.g. 4.61"></div>
-      <div class="field"><label>Quartile</label><select id="f-q"><option value="">—</option><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Citations (approx)</label><input id="f-cite" placeholder="e.g. ~25"></div>
-      <div class="field"><label>URL / DOI</label><input id="f-url" placeholder="https://doi.org/..."></div>
-    </div>
-    <div class="form-grid full"><div class="field"><label>Summary</label><textarea id="f-snip" placeholder="One or two sentences summarising the key contribution..."></textarea></div></div>
+    <div class="fg full"><div class="field"><label>Title *</label><input id="f-title" placeholder="Full paper title"></div></div>
+    <div class="fg"><div class="field"><label>Scholar</label><select id="f-scholar"><option value="other">Other / Related</option>${opts}</select></div>
+    <div class="field"><label>Year *</label><input id="f-year" placeholder="e.g. 2025" maxlength="4"></div></div>
+    <div class="fg"><div class="field"><label>Journal / Venue *</label><input id="f-journal" placeholder="e.g. Applied Linguistics"></div>
+    <div class="field"><label>Authors</label><input id="f-authors" placeholder="e.g. Dai, D.W. & Smith, J."></div></div>
+    <div class="fg"><div class="field"><label>Impact Factor</label><input id="f-if" placeholder="e.g. 4.61"></div>
+    <div class="field"><label>Quartile</label><select id="f-q"><option value="">—</option><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div></div>
+    <div class="fg"><div class="field"><label>Citations (approx)</label><input id="f-cite" placeholder="e.g. ~25"></div>
+    <div class="field"><label>URL / DOI</label><input id="f-url" placeholder="https://doi.org/..."></div></div>
+    <div class="fg full"><div class="field"><label>Summary</label><textarea id="f-snip" placeholder="One or two sentences summarising the key contribution..."></textarea></div></div>
     <div style="margin-top:.75rem;"><button class="btn btn-primary" id="savePubBtn" onclick="savePub()">Save Publication</button></div>
   </div>
   <div id="recent-pubs"></div>`;
-  renderRecentPubs();
+  const last=[...db.publications].reverse().slice(0,4);
+  if(last.length)document.getElementById('recent-pubs').innerHTML=`<div class="s-hdr">Recently added</div>`+last.map(p=>`<div class="pub-card"><div class="pub-top"><div class="pub-title">${p.url?`<a href="${p.url}" target="_blank">${p.title}</a>`:p.title}</div><div class="badges"><span class="badge ${badgeY(p.year)}">${p.year}</span></div></div><div class="pub-meta">${p.journal} · ${p.authors}</div></div>`).join('');
 }
 
-function renderRecentPubs(){
-  const el=document.getElementById('recent-pubs');
-  if(!el)return;
-  const last=[...db.publications].reverse().slice(0,5);
-  if(!last.length)return;
-  el.innerHTML=`<div class="s-hdr">Recently added</div>`+last.map(p=>`
-    <div class="pub-card">
-      <div class="pub-top"><div class="pub-title">${p.url?`<a href="${p.url}" target="_blank">${p.title}</a>`:p.title}</div>
-      <div class="badges"><span class="badge ${badgeY(p.year)}">${p.year}</span></div></div>
-      <div class="pub-meta">${p.journal} · ${p.authors}</div>
-    </div>`).join('');
-}
-
-function savePub(existingId){
+function savePub(eid){
   const title=document.getElementById('f-title').value.trim();
   const year=document.getElementById('f-year').value.trim();
   const journal=document.getElementById('f-journal').value.trim();
   if(!title||!year||!journal){showToast('Please fill in Title, Year and Journal.');return;}
-  const p={id:existingId||uid(),scholarId:document.getElementById('f-scholar').value,year,title,journal,
+  const p={id:eid||uid(),scholarId:document.getElementById('f-scholar').value,year,title,journal,
     authors:document.getElementById('f-authors').value.trim(),
     if:document.getElementById('f-if').value.trim()||'—',
     q:document.getElementById('f-q').value||'—',
     cite:document.getElementById('f-cite').value.trim(),
     url:document.getElementById('f-url').value.trim(),
     snip:document.getElementById('f-snip').value.trim()};
-  if(existingId){const i=db.publications.findIndex(x=>x.id===existingId);if(i>=0)db.publications[i]=p;}
+  if(eid){const i=db.publications.findIndex(x=>x.id===eid);if(i>=0)db.publications[i]=p;}
   else db.publications.push(p);
-  saveLocal();
-  showToast(existingId?'Publication updated!':'Publication added!');
+  saveLocal();showToast(eid?'Updated!':'Publication added!');
   renderAddPub(document.getElementById('main-content'));
 }
 
 function renderAddScholar(main){
-  main.innerHTML=`<div class="page-title">Add Scholar</div><div class="page-sub">Track a new researcher in this field</div>
+  main.innerHTML=`<div class="page-title">Add Scholar</div><div class="page-sub">Track a new researcher</div>
   <div class="add-section">
-    <div class="form-grid">
-      <div class="field"><label>Full name *</label><input id="s-name" placeholder="e.g. Glenn Fulcher"></div>
-      <div class="field"><label>Institution *</label><input id="s-inst" placeholder="e.g. University of Leicester, UK"></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Department</label><input id="s-dept" placeholder="e.g. Applied Linguistics"></div>
-      <div class="field"><label>Type</label><select id="s-type"><option value="related">Related scholar</option><option value="core">Core scholar</option></select></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>h-index</label><input id="s-h" type="number" placeholder="e.g. 22"></div>
-      <div class="field"><label>Total citations</label><input id="s-cit" type="number" placeholder="e.g. 3200"></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Google Scholar URL</label><input id="s-gs" placeholder="https://scholar.google.com/citations?user=..."></div>
-      <div class="field"><label>Note / award</label><input id="s-note" placeholder="e.g. ILTA Best Article 2024"></div>
-    </div>
-    <div class="form-grid full"><div class="field"><label>Research areas (comma-separated)</label><input id="s-tags" placeholder="e.g. Language assessment, AI in testing, Validity"></div></div>
-    <div class="form-grid full"><div class="field"><label>Avatar colour</label>
-      <div class="color-swatch" id="avPicker">${AVATARS.map((a,i)=>`<div class="swatch${i===0?' sel':''}" style="background:${a.bg};border-color:${i===0?'#333':'transparent'};" data-i="${i}" onclick="pickAv(${i})"></div>`).join('')}
-      </div></div></div>
+    <div class="fg"><div class="field"><label>Full name *</label><input id="s-name" placeholder="e.g. Glenn Fulcher"></div>
+    <div class="field"><label>Institution *</label><input id="s-inst" placeholder="e.g. University of Leicester, UK"></div></div>
+    <div class="fg"><div class="field"><label>Department</label><input id="s-dept" placeholder="e.g. Applied Linguistics"></div>
+    <div class="field"><label>Type</label><select id="s-type"><option value="related">Related scholar</option><option value="core">Core scholar</option></select></div></div>
+    <div class="fg"><div class="field"><label>h-index</label><input id="s-h" type="number" placeholder="e.g. 22"></div>
+    <div class="field"><label>Total citations</label><input id="s-cit" type="number" placeholder="e.g. 3200"></div></div>
+    <div class="fg"><div class="field"><label>Google Scholar URL</label><input id="s-gs" placeholder="https://scholar.google.com/citations?user=..."></div>
+    <div class="field"><label>Note / award</label><input id="s-note" placeholder="e.g. ILTA Best Article 2024"></div></div>
+    <div class="fg full"><div class="field"><label>Research areas (comma-separated)</label><input id="s-tags" placeholder="e.g. Language assessment, AI in testing"></div></div>
+    <div class="fg full"><div class="field"><label>Avatar colour</label>
+      <div class="color-swatch" id="avPicker">${AVATARS.map((a,i)=>`<div class="swatch${i===0?' sel':''}" style="background:${a.bg};border-color:${i===0?'#333':'transparent'};" onclick="pickAv(${i})"></div>`).join('')}</div>
+    </div></div>
     <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveSchBtn" onclick="saveScholar()">Save Scholar</button></div>
   </div>
-  <div id="all-sch"></div>`;
-  renderAllSch();
+  <div class="s-hdr">All tracked scholars</div>
+  <div class="sch-grid">${db.scholars.map(s=>`<div class="sch-card" style="padding:.75rem;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div class="sch-av" style="${av(s)};width:32px;height:32px;font-size:11px;">${initials(s.name)}</div>
+      <div><div class="sch-name" style="font-size:13px;">${s.name}</div><div class="sch-inst">${s.inst}</div></div>
+    </div>
+    <div style="display:flex;gap:5px;">
+      <button class="btn btn-secondary btn-sm" onclick="editScholar('${s.id}')">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteScholar('${s.id}')">Delete</button>
+    </div></div>`).join('')}</div>`;
 }
 
-function renderAllSch(){
-  const el=document.getElementById('all-sch');if(!el)return;
-  el.innerHTML=`<div class="s-hdr">All tracked scholars</div><div class="sch-grid">`+
-    db.scholars.map(s=>`<div class="sch-card" style="padding:.75rem;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
-        <div class="sch-av" style="${av(s)};width:32px;height:32px;font-size:11px;">${initials(s.name)}</div>
-        <div><div class="sch-name" style="font-size:13px;">${s.name}</div><div class="sch-inst">${s.inst}</div></div>
-      </div>
-      <div style="display:flex;gap:5px;">
-        <button class="btn btn-secondary btn-sm" onclick="editScholar('${s.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteScholar('${s.id}')">Delete</button>
-      </div></div>`).join('')+`</div>`;
-}
+function pickAv(i){pickedAv=i;document.querySelectorAll('.swatch').forEach((el,idx)=>{el.style.borderColor=idx===i?'#333':'transparent';el.classList.toggle('sel',idx===i);});}
 
-function pickAv(i){
-  pickedAv=i;
-  document.querySelectorAll('.swatch').forEach((el,idx)=>{el.style.borderColor=idx===i?'#333':'transparent';el.classList.toggle('sel',idx===i);});
-}
-
-function saveScholar(existingId){
+function saveScholar(eid){
   const name=document.getElementById('s-name').value.trim();
   const inst=document.getElementById('s-inst').value.trim();
   if(!name||!inst){showToast('Please fill in Name and Institution.');return;}
   const tags=document.getElementById('s-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  const s={id:existingId||uid(),name,inst,dept:document.getElementById('s-dept').value.trim(),
+  const s={id:eid||uid(),name,inst,dept:document.getElementById('s-dept').value.trim(),
     type:document.getElementById('s-type').value,hindex:parseInt(document.getElementById('s-h').value)||0,
     citations:parseInt(document.getElementById('s-cit').value)||0,gs:document.getElementById('s-gs').value.trim(),
     note:document.getElementById('s-note').value.trim(),tags,avIdx:pickedAv};
-  if(existingId){const i=db.scholars.findIndex(x=>x.id===existingId);if(i>=0)db.scholars[i]=s;}
+  if(eid){const i=db.scholars.findIndex(x=>x.id===eid);if(i>=0)db.scholars[i]=s;}
   else db.scholars.push(s);
-  saveLocal();
-  showToast(existingId?'Scholar updated!':'Scholar added!');
+  saveLocal();showToast(eid?'Updated!':'Scholar added!');
   renderAddScholar(document.getElementById('main-content'));
 }
 
 function renderAddJournal(main){
   main.innerHTML=`<div class="page-title">Add Journal</div><div class="page-sub">Track a new publication venue</div>
   <div class="add-section">
-    <div class="form-grid">
-      <div class="field"><label>Journal name *</label><input id="j-name" placeholder="e.g. Language Testing"></div>
-      <div class="field"><label>Publisher</label><input id="j-pub" placeholder="e.g. SAGE Publications"></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>URL</label><input id="j-url" placeholder="https://..."></div>
-      <div class="field"><label>Quartile</label><select id="j-q"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div>
-    </div>
-    <div class="form-grid three">
+    <div class="fg"><div class="field"><label>Journal name *</label><input id="j-name" placeholder="e.g. Language Testing"></div>
+    <div class="field"><label>Publisher</label><input id="j-pub" placeholder="e.g. SAGE Publications"></div></div>
+    <div class="fg"><div class="field"><label>URL</label><input id="j-url" placeholder="https://..."></div>
+    <div class="field"><label>Quartile</label><select id="j-q"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div></div>
+    <div class="fg three">
       <div class="field"><label>Impact Factor</label><input id="j-if" placeholder="e.g. 4.20"></div>
       <div class="field"><label>SJR</label><input id="j-sjr" placeholder="e.g. 1.50"></div>
       <div class="field"><label>CiteScore</label><input id="j-cs" placeholder="e.g. 5.7"></div>
     </div>
-    <div class="form-grid">
-      <div class="field"><label>h-index</label><input id="j-hi" type="number" placeholder="e.g. 76"></div>
-      <div class="field"></div>
-    </div>
-    <div class="form-grid full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal is relevant..."></textarea></div></div>
+    <div class="fg"><div class="field"><label>h-index</label><input id="j-hi" type="number" placeholder="e.g. 76"></div><div class="field"></div></div>
+    <div class="fg full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal is relevant..."></textarea></div></div>
     <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveJBtn" onclick="saveJournal()">Save Journal</button></div>
   </div>
-  <div id="all-jrnls"></div>`;
-  renderAllJrnls();
+  <div class="s-hdr">All tracked journals</div>
+  <div>${db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;">
+    <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
+    <div class="jrnl-pub">${j.pub}</div>
+    <div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span></div>
+    <div style="display:flex;gap:5px;margin-top:8px;">
+      <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
+    </div></div>`).join('')}</div>`;
 }
 
-function renderAllJrnls(){
-  const el=document.getElementById('all-jrnls');if(!el)return;
-  el.innerHTML=`<div class="s-hdr">All tracked journals</div>`+
-    db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;">
-      <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a><span class="badge b-q1">${j.q}</span></div>
-      <div class="jrnl-pub">${j.pub}</div>
-      <div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span>${j.cs&&j.cs!=='—'?`<span class="metric">CiteScore <strong>${j.cs}</strong></span>`:''}</div>
-      <div style="display:flex;gap:5px;margin-top:8px;">
-        <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
-      </div></div>`).join('');
-}
-
-function saveJournal(existingId){
+function saveJournal(eid){
   const name=document.getElementById('j-name').value.trim();
   if(!name){showToast('Please enter a journal name.');return;}
-  const j={id:existingId||uid(),name,pub:document.getElementById('j-pub').value.trim(),url:document.getElementById('j-url').value.trim(),
+  const j={id:eid||uid(),name,pub:document.getElementById('j-pub').value.trim(),url:document.getElementById('j-url').value.trim(),
     q:document.getElementById('j-q').value,if:document.getElementById('j-if').value.trim()||'—',
     sjr:document.getElementById('j-sjr').value.trim()||'—',cs:document.getElementById('j-cs').value.trim()||'—',
     hi:parseInt(document.getElementById('j-hi').value)||0,note:document.getElementById('j-note').value.trim()};
-  if(existingId){const i=db.journals.findIndex(x=>x.id===existingId);if(i>=0)db.journals[i]=j;}
+  if(eid){const i=db.journals.findIndex(x=>x.id===eid);if(i>=0)db.journals[i]=j;}
   else db.journals.push(j);
-  saveLocal();
-  showToast(existingId?'Journal updated!':'Journal added!');
+  saveLocal();showToast(eid?'Updated!':'Journal added!');
   renderAddJournal(document.getElementById('main-content'));
 }
 
+/* ── EDIT / DELETE ── */
 function editPub(id){
   const p=db.publications.find(x=>x.id===id);if(!p)return;
   showPage('add-pub',null);
   setTimeout(()=>{
-    document.getElementById('f-title').value=p.title;document.getElementById('f-scholar').value=p.scholarId;
-    document.getElementById('f-year').value=p.year;document.getElementById('f-journal').value=p.journal;
-    document.getElementById('f-authors').value=p.authors||'';document.getElementById('f-if').value=p.if||'';
-    document.getElementById('f-q').value=p.q||'';document.getElementById('f-cite').value=p.cite||'';
-    document.getElementById('f-url').value=p.url||'';document.getElementById('f-snip').value=p.snip||'';
+    ['title','year','journal','authors','if','q','cite','url','snip'].forEach(k=>{const el=document.getElementById(`f-${k}`);if(el)el.value=p[k]||'';});
+    document.getElementById('f-scholar').value=p.scholarId;
     const btn=document.getElementById('savePubBtn');btn.textContent='Update Publication';btn.onclick=()=>savePub(id);
   },60);
 }
@@ -744,10 +787,9 @@ function editJournal(id){
     const btn=document.getElementById('saveJBtn');btn.textContent='Update Journal';btn.onclick=()=>saveJournal(id);
   },60);
 }
-
 function deletePub(id){if(!confirm('Delete this publication?'))return;db.publications=db.publications.filter(p=>p.id!==id);saveLocal();showToast('Deleted.');updatePubs();}
-function deleteScholar(id){if(!confirm('Delete this scholar?'))return;db.scholars=db.scholars.filter(s=>s.id!==id);saveLocal();showToast('Scholar deleted.');showPage('add-scholar',null);}
-function deleteJournal(id){if(!confirm('Delete this journal?'))return;db.journals=db.journals.filter(j=>j.id!==id);saveLocal();showToast('Journal deleted.');showPage('add-journal',null);}
+function deleteScholar(id){if(!confirm('Delete this scholar?'))return;db.scholars=db.scholars.filter(s=>s.id!==id);saveLocal();showToast('Deleted.');showPage('add-scholar',null);}
+function deleteJournal(id){if(!confirm('Delete this journal?'))return;db.journals=db.journals.filter(j=>j.id!==id);saveLocal();showToast('Deleted.');showPage('add-journal',null);}
 
 function exportData(){
   const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
