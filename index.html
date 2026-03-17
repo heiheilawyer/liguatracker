@@ -701,37 +701,38 @@ function clearApiKey(){
 function renderJournals(main){
   const journals=db.journals.filter(j=>j.q!=='DB');
   const databases=db.journals.filter(j=>j.q==='DB');
-  main.innerHTML=`<div class="page-title">Journals & Databases</div>
-  <div class="page-sub">Key journals and academic databases for this research area</div>
-  <div class="legend"><strong>IF</strong> = Impact Factor (Clarivate) · <strong>SJR</strong> = SCImago Journal Rank · <strong>CiteScore</strong> = Scopus 4-year avg · <strong>Q1</strong> = top 25% in linguistics</div>
-  <div class="s-hdr"><span class="sdot" style="background:#2d5a8e"></span>Journals (\${journals.length})</div>
-  <div>\${journals.map(j=>\`
-    <div class="jrnl-card">
-      <div class="jrnl-top"><a class="jrnl-name" href="\${j.url}" target="_blank">\${j.name}</a><span class="badge b-q1">\${j.q}</span></div>
-      <div class="jrnl-pub">\${j.pub}</div>
-      <div class="metrics">
-        <span class="metric">IF <strong>\${j.if}</strong></span>
-        <span class="metric">SJR <strong>\${j.sjr}</strong></span>
-        \${j.cs&&j.cs!=='—'?\`<span class="metric">CiteScore <strong>\${j.cs}</strong></span>\`:''}
-        \${j.hi?\`<span class="metric">h-index <strong>\${j.hi}</strong></span>\`:''}
-      </div>
-      <div class="jrnl-note">\${j.note}</div>
-      <div style="display:flex;gap:5px;margin-top:8px;">
-        <button class="btn btn-secondary btn-sm" onclick="editJournal('\${j.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteJournal('\${j.id}')">Delete</button>
-      </div>
-    </div>\`).join('')}</div>
-  <div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#1a6060"></span>Academic Databases (\${databases.length})</div>
-  <div>\${databases.map(j=>\`
-    <div class="jrnl-card" style="border-left:3px solid #b2dbd8;">
-      <div class="jrnl-top"><a class="jrnl-name" href="\${j.url}" target="_blank">\${j.name}</a><span class="badge" style="background:#e6f4f4;color:#1a6060;">Database</span></div>
-      <div class="jrnl-pub">\${j.pub}</div>
-      <div class="jrnl-note" style="margin-top:6px;">\${j.note}</div>
-      <div style="display:flex;gap:5px;margin-top:8px;">
-        <button class="btn btn-secondary btn-sm" onclick="editJournal('\${j.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteJournal('\${j.id}')">Delete</button>
-      </div>
-    </div>\`).join('')}</div>\`;
+  let html='<div class="page-title">Journals &amp; Databases</div>';
+  html+='<div class="page-sub">Key journals and academic databases for this research area</div>';
+  html+='<div class="legend"><strong>IF</strong> = Impact Factor (Clarivate) &nbsp;&middot;&nbsp; <strong>SJR</strong> = SCImago Journal Rank &nbsp;&middot;&nbsp; <strong>CiteScore</strong> = Scopus 4-year avg &nbsp;&middot;&nbsp; <strong>Q1</strong> = top 25% in linguistics</div>';
+  html+='<div class="s-hdr"><span class="sdot" style="background:#2d5a8e"></span>Journals ('+journals.length+')</div>';
+  journals.forEach(j=>{
+    html+='<div class="jrnl-card">';
+    html+='<div class="jrnl-top"><a class="jrnl-name" href="'+j.url+'" target="_blank">'+j.name+'</a><span class="badge b-q1">'+j.q+'</span></div>';
+    html+='<div class="jrnl-pub">'+j.pub+'</div>';
+    html+='<div class="metrics">';
+    html+='<span class="metric">IF <strong>'+j.if+'</strong></span>';
+    html+='<span class="metric">SJR <strong>'+j.sjr+'</strong></span>';
+    if(j.cs&&j.cs!=='—') html+='<span class="metric">CiteScore <strong>'+j.cs+'</strong></span>';
+    if(j.hi) html+='<span class="metric">h-index <strong>'+j.hi+'</strong></span>';
+    html+='</div>';
+    html+='<div class="jrnl-note">'+j.note+'</div>';
+    html+='<div style="display:flex;gap:5px;margin-top:8px;">';
+    html+='<button class="btn btn-secondary btn-sm" onclick="editJournal(\''+j.id+'\')">Edit</button>';
+    html+='<button class="btn btn-danger btn-sm" onclick="deleteJournal(\''+j.id+'\')">Delete</button>';
+    html+='</div></div>';
+  });
+  html+='<div class="s-hdr" style="margin-top:1.5rem;"><span class="sdot" style="background:#1a6060"></span>Academic Databases ('+databases.length+')</div>';
+  databases.forEach(j=>{
+    html+='<div class="jrnl-card" style="border-left:3px solid #b2dbd8;">';
+    html+='<div class="jrnl-top"><a class="jrnl-name" href="'+j.url+'" target="_blank">'+j.name+'</a><span class="badge" style="background:#e6f4f4;color:#1a6060;font-size:10px;padding:2px 8px;border-radius:20px;">Database</span></div>';
+    html+='<div class="jrnl-pub">'+j.pub+'</div>';
+    html+='<div class="jrnl-note" style="margin-top:6px;">'+j.note+'</div>';
+    html+='<div style="display:flex;gap:5px;margin-top:8px;">';
+    html+='<button class="btn btn-secondary btn-sm" onclick="editJournal(\''+j.id+'\')">Edit</button>';
+    html+='<button class="btn btn-danger btn-sm" onclick="deleteJournal(\''+j.id+'\')">Delete</button>';
+    html+='</div></div>';
+  });
+  main.innerHTML=html;
 }
 
 function renderAddPub(main){
@@ -820,34 +821,36 @@ function saveScholar(eid){
 }
 
 function renderAddJournal(main){
-  main.innerHTML=`<div class="page-title">Add Journal</div><div class="page-sub">Track a new publication venue</div>
+  main.innerHTML=`<div class="page-title">Add Journal / Database</div><div class="page-sub">Track a new publication venue or academic database</div>
   <div class="add-section">
-    <div class="fg"><div class="field"><label>Journal name *</label><input id="j-name" placeholder="e.g. Language Testing"></div>
+    <div class="fg"><div class="field"><label>Name *</label><input id="j-name" placeholder="e.g. Language Testing"></div>
     <div class="field"><label>Publisher</label><input id="j-pub" placeholder="e.g. SAGE Publications"></div></div>
     <div class="fg"><div class="field"><label>URL</label><input id="j-url" placeholder="https://..."></div>
-    <div class="field"><label>Quartile</label><select id="j-q"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option></select></div></div>
+    <div class="field"><label>Quartile / Type</label><select id="j-q"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option><option value="DB">Database</option></select></div></div>
     <div class="fg three">
       <div class="field"><label>Impact Factor</label><input id="j-if" placeholder="e.g. 4.20"></div>
       <div class="field"><label>SJR</label><input id="j-sjr" placeholder="e.g. 1.50"></div>
       <div class="field"><label>CiteScore</label><input id="j-cs" placeholder="e.g. 5.7"></div>
     </div>
     <div class="fg"><div class="field"><label>h-index</label><input id="j-hi" type="number" placeholder="e.g. 76"></div><div class="field"></div></div>
-    <div class="fg full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal is relevant..."></textarea></div></div>
-    <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveJBtn" onclick="saveJournal()">Save Journal</button></div>
-  </div>
-  <div class="s-hdr">All tracked journals & databases</div>
-  <div>${db.journals.map(j=>`<div class="jrnl-card" style="margin-bottom:8px;${j.q==='DB'?'border-left:3px solid #b2dbd8;':''}">
-    <div class="jrnl-top"><a class="jrnl-name" href="${j.url}" target="_blank">${j.name}</a>
-      ${j.q==='DB'?'<span class="badge" style="background:#e6f4f4;color:#1a6060;font-size:10px;padding:2px 8px;border-radius:20px;">Database</span>':`<span class="badge b-q1">${j.q}</span>`}
-    </div>
-    <div class="jrnl-pub">${j.pub}</div>
-    ${j.q!=='DB'?`<div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>${j.if}</strong></span><span class="metric">SJR <strong>${j.sjr}</strong></span></div>`:''}
-    <div style="display:flex;gap:5px;margin-top:8px;">
-      <button class="btn btn-secondary btn-sm" onclick="editJournal('${j.id}')">Edit</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteJournal('${j.id}')">Delete</button>
-    </div></div>`).join('')}</div>`;
+    <div class="fg full"><div class="field"><label>Notes</label><textarea id="j-note" placeholder="Why this journal or database is relevant..."></textarea></div></div>
+    <div style="margin-top:.75rem;"><button class="btn btn-primary" id="saveJBtn" onclick="saveJournal()">Save</button></div>
+  </div>`;
+  let jlist='<div class="s-hdr">All tracked journals &amp; databases</div>';
+  db.journals.forEach(j=>{
+    const isDB=j.q==='DB';
+    jlist+='<div class="jrnl-card" style="margin-bottom:8px;'+(isDB?'border-left:3px solid #b2dbd8;':'')+'">';
+    jlist+='<div class="jrnl-top"><a class="jrnl-name" href="'+j.url+'" target="_blank">'+j.name+'</a>';
+    jlist+=isDB?'<span class="badge" style="background:#e6f4f4;color:#1a6060;font-size:10px;padding:2px 8px;border-radius:20px;">Database</span>':'<span class="badge b-q1">'+j.q+'</span>';
+    jlist+='</div><div class="jrnl-pub">'+j.pub+'</div>';
+    if(!isDB) jlist+='<div class="metrics" style="margin-bottom:0;"><span class="metric">IF <strong>'+j.if+'</strong></span><span class="metric">SJR <strong>'+j.sjr+'</strong></span></div>';
+    jlist+='<div style="display:flex;gap:5px;margin-top:8px;">';
+    jlist+='<button class="btn btn-secondary btn-sm" onclick="editJournal(\''+j.id+'\')">Edit</button>';
+    jlist+='<button class="btn btn-danger btn-sm" onclick="deleteJournal(\''+j.id+'\')">Delete</button>';
+    jlist+='</div></div>';
+  });
+  main.innerHTML+=jlist;
 }
-
 
 function saveJournal(eid){
   const name=document.getElementById('j-name').value.trim();
